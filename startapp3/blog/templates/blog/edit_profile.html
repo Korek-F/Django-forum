@@ -1,0 +1,10 @@
+{% extends "blog/base.html"%}
+{%block content%}
+<h1>Edit Profile</h1>
+<form method="post" action="{%url 'edit_profile' profile.id%}">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">Zapisz</button>
+</form>
+<a href="{%url 'mainpage'%}" class="btn btn-primary">Strona główna</a>
+{% endblock %}

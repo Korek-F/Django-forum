@@ -1,0 +1,36 @@
+{% extends "blog/base.html"%}
+{%block content%}
+<h1>Znajomi</h1>
+{%for friend in profile.friends.all%}
+<a href="{% url 'profile' friend.id%}"  class="btn btn-success friend">
+    {% if friend.images.all|first%}
+        {% for image in friend.images.all%}
+        {% if forloop.first %}
+            <img src="{{image.image.url}}" width="60" height="60"/>
+        {% endif %}
+        {% endfor %}
+    {%endif%}
+    {%if friend.first_name%}
+        <b>{{friend.first_name}}</b> <br /> <small>{{friend.user.username}}</small>
+    {% else %}
+        <b>{{friend.user.username}} </b>
+    {%endif%}
+</a>
+{%endfor%}
+<h1>Zaproszenia do znajomych</h1>
+{%for request in friend_requests%}
+    {%if not user.profile.id in friends_id%}
+    <div style="display:flex;">
+        <form action="{% url 'akcept_firend_request' request.id profile.id %}" method="POST">
+            {%csrf_token%}
+            <button type="submit" class="btn btn-primary" >Zaakceptuj</button>
+        </form>
+        <form action="{% url 'reject_firend_request' request.id profile.id %}" method="POST">
+            {%csrf_token%}
+            <button type="submit" class="btn btn-danger" >Odrzuć</button>
+        </form>
+        <h3> {{request.profile_from.user.username}}</h3>
+    </div>
+    {%endif%}
+{%endfor%}
+{% endblock %}

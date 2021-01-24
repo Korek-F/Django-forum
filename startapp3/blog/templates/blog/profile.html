@@ -1,0 +1,139 @@
+{% extends "blog/base.html"%}
+{%block content%}
+<div style="color:white;">
+    {{profile.user.username}} 
+    {%if user.profile.id == profile.id%}
+    <a href="{%url 'edit_profile' profile.id%}" class="btn btn-primary">Edytuj</a>
+    {%endif%}
+    
+    <br />
+        Imię: 
+        {%if profile.first_name %}
+            {{profile.first_name}}
+        {% else %}
+            Brak danych
+        {% endif %}
+    <br />
+        Nazwisko:
+        {%if profile.last_name %}
+            {{profile.last_name}}
+        {% else %}
+            Brak danych
+        {% endif %}
+    <br />
+        Data urodzenia: 
+        {%if profile.birth_date %}
+            {{profile.birth_date}}
+        {% endif %}
+    <br />
+        Miasto:
+        {%if profile.city %}
+            {{profile.city}}
+        {% else %}
+            Brak danych
+        {% endif %}
+    <br />
+        Kraj:
+        {%if profile.country %}
+            {{profile.country}}
+        {% else %}
+            Brak danych
+        {% endif %}
+    <br />
+        Wzrost: 
+        {%if profile.height %}
+            {{profile.height}}cm
+        {% else %}
+            Brak danych
+        {% endif %} 
+    <br />
+        Waga: 
+        {%if profile.weight %}
+            {{profile.weight}}kg
+        {% else %}
+            Brak danych
+        {% endif %} 
+    <br />
+        Płeć: 
+        {%if profile.gender %}
+            {{profile.gender}}
+        {% else %}
+        Brak danych
+        {% endif %}
+    <br />
+        Opis :
+        {%if profile.description %}
+            {{profile.description}}
+        {% else %}
+            Brak danych
+        {% endif %}
+    <br />
+        {%if profile.friends.all%}
+            Znajomi:
+            {%for friend in profile.friends.all%}
+                <a href="{% url 'profile' friend.id%}"  class="btn btn-success">{{friend}}</a>
+            {%endfor%}
+        {%endif%}
+    <br />
+        
+        Zdjęcia:
+        <div class="container-fluid">
+            <div class="row">
+                {%for image in profile.images.all%}
+                <div class="col-md-3">
+                    <div style="background-color: white; margin-top: 10px;"> 
+                        <img src="{{image.image.url}}" style="display:block;margin: 0 auto; padding:5px;" height="220" max-width="330" >
+                        {%if user.profile.id == profile.id%}
+                        <form action="{% url 'remove_image' image.id profile.id%}" method="POST">
+                            {%csrf_token%}
+                            <button type="submit" class="btn btn-primary" style="display:block;margin: 0 auto;">Usuń zdjęcie</button>
+                        </form>
+                        {%endif%}
+                    </div>
+                </div>
+                {%endfor%}
+                {%if user.profile.id == profile.id%}
+                {%if profile.images.all.count < 6 %}
+                <div class="col-sm-3">
+                        <form method="post" enctype="multipart/form-data" action="{%url 'profile' profile.id%}">
+                            {%csrf_token%}
+                            {{form.media}}
+                            {{form.as_p}}
+                            <button type="submit">Prześlij</button>
+                        </form>
+                </div>
+                {%else%}
+                Masz już za dużo zdjęć
+                {%endif%}
+                
+            </div>
+        </div>
+    <br />
+    {%endif%}
+       
+        {%if user.is_authenticated%}
+            {% if not user.profile.id == profile.id %}
+                <div style="margin-top: 5px;"> 
+                {%if not user.profile.id in friends_id%}
+                    <form action="{%url 'create_friend_request' user.profile.id profile.id profile.id%}" method="POST">
+                        {%csrf_token%}
+                        <button type="submit" class="btn btn-primary" >Dodaj do znajomych</button>
+                    </form>
+                {%else%}
+                    <form action="{%url 'remove_friend' user.profile.id profile.id profile.id%}" method="POST">
+                        {%csrf_token%}
+                        <button type="submit" class="btn btn-primary" >Usuń znajomego</button>
+                    </form>
+                    <br />
+                    {%if have_chat%}
+                    <a href="{% url 'chat' chat.id %}"  class="btn btn-success">Chat</a>
+                    {%else%}
+                    <a href="{% url 'create_chat' profile.id %}"  class="btn btn-success">Create Chat</a>
+                    {%endif%}
+                {%endif%}
+                </div>
+            {%endif%}
+        {%endif%}
+</div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "blog/base.html"%}
+{%block content%}
+{% if user.is_authenticated%}
+<h3 style="color:white;">{{second_user.get_name}}</h3>
+
+
+<div style="color:white;"> 
+<div id="message_box"></div>
+
+<div id="inputs">
+    <input type="text" id="message_input" maxlength="300" />
+    <button id="message_button">Send</button>
+</div>
+</div>
+
+<script type="text/javascript">
+    const message_input = document.querySelector("#message_input")
+    const message_button  = document.querySelector("#message_button")
+    const message_box = document.querySelector("#message_box")
+    let ChatRefreshInterval = setInterval(CheckChat,2000);
+    function CheckChat(){
+        fetch("get_messages",{
+                body: JSON.stringify({chat_id:{{chat.id}},user_id:{{user.profile.id}}}),
+                method:"POST"})
+        .then((res)=>res.json())
+        .then((results)=>{
+                results = results.reverse()
+                message_box.innerHTML = ""
+                for(result in results){
+                    const all_data=results[result]
+                    const {id, content, owner_id, date} = all_data
+                    const new_message = document.createElement("div")
+                    function safe_tags(str){
+                        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') ;
+                    }
+                    content2 = safe_tags(content)
+
+                    if(owner_id=={{user.profile.id}}){
+                    new_message.innerHTML = `<div style="background-color:gray;" class="my_message" title=${date}>
+                    {{user.profile.get_name}} - ${content2}</div> `
+                    }else{
+                    new_message.innerHTML = `<div color="other_message" title=${date}>
+                    {{second_user.get_name}} - ${content2}</div> `}
+
+                    message_box.prepend(new_message)
+                }
+            
+        })
+    }
+    CheckChat()
+    message_button.addEventListener("click", (e)=>{
+        const created_message = message_input.value
+        if(created_message.length>0){
+            fetch("create_message",{
+                body: JSON.stringify({chat_id:{{chat.id}},content:created_message, owner_id:{{user.profile.id}}}),
+                method:"POST"
+            })
+            message_input.value = ""
+            CheckChat()
+        }
+    })
+</script>
+
+{%else%}
+Brak dostępu
+{%endif%}
+{% endblock %}
