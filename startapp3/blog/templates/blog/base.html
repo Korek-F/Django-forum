@@ -9,37 +9,59 @@
     <link rel ="stylesheet" href="{% static 'style.css' %}">
     <title>:0</title>
   </head>
-  <body style="background-color:#993399;">
-    <nav>
-      <div class="container-fluid"> 
-        <div class="navigation">
-          {% if not user.is_authenticated%}
-          <div class=" option"><a href="{% url 'registration' %}" >Rejestracja</a></div>
-          <div class=" option"><a href="{% url 'login_to_blog' %}" >Zaloguj</a></div>
-          {%endif%}
-          {% if user.is_authenticated%}
-          <div class="option"> <h1>Witaj {{user.username}}</h1></div>
-          <div class="option"><a href="{% url 'mainpage' %}" >Strona główna</a></div>
-          <div class=" option"><a href="{% url 'profile' user.profile.id %}" >Edytuj profil</a></div>
-          <div class=" option">
-            <a href="{% url 'friend_list' user.profile.id %}">
-              {% if not new_friend_request == 0%}
-                 Znajomi  <span style="color:red;"> {{new_friend_request}}</spane>
-              {%else%}
-                Znajomi 
-              {%endif%}
-            </a>
-          </div>
-          <div class="option">
-            <a href="{% url 'all_chats' %}">Czat {{new_messages}}</a>
-          </div>
-          <div class="option"><a href="{% url 'logout' %}" >Wyloguj</a></div>
-          {%endif%}
-        </div>
-      </div>
-    </nav>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><h1>Witaj {{user.profile.get_name}}</h1></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if not user.is_authenticated%}
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'registration' %}">Rejestracja</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'login_to_blog' %}">Zaloguj</a>
+          </li>
+        {%endif%}
+        {% if user.is_authenticated%}
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'mainpage' %}">Strona główna</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'profile' user.profile.id %}">Edytuj profil</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'friend_list' user.profile.id %}">
+            {% if not new_friend_request == 0%}
+              Znajomi  <span style="color:red;"> {{new_friend_request}}</span>
+            {%else%}
+              Znajomi 
+            {%endif%}
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'all_chats' %}">Czat
+            {% if  new_messages%}  {{new_messages}} {%endif%}
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'logout' %}">Wyloguj</a>
+        </li>
+         {%endif%}
+      </ul>
+      
+    </div>
+  </div>
+</nav>
+    <div class="main_content"> 
+      <div class="container"> 
     {%block content%}
     {% endblock %}
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
   </body>
 </html>

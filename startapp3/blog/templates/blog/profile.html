@@ -82,7 +82,7 @@
                 {%for image in profile.images.all%}
                 <div class="col-md-3">
                     <div style="background-color: white; margin-top: 10px;"> 
-                        <img src="{{image.image.url}}" style="display:block;margin: 0 auto; padding:5px;" height="220" max-width="330" >
+                        <img src="{{image.image.url}}" class="profile_image" >
                         {%if user.profile.id == profile.id%}
                         <form action="{% url 'remove_image' image.id profile.id%}" method="POST">
                             {%csrf_token%}

@@ -1,31 +1,88 @@
-nav{
-    background-color: #600469;
-    height: 100px;
+*{
+    box-sizing: border-box;
 }
-.navigation{
-    display: inline;
+nav{
+    background: rgb(255,0,0);
+    background: linear-gradient(16deg, rgba(255,0,0,1) 29%, rgba(0,0,0,1) 63%, rgba(0,0,0,1) 100%);
+    
+    border-bottom: white solid 1px;
+}
+body{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: black;
+
     
 }
-.option{
-    float: left;
-    color:aliceblue;
-    font-size: 3vh;
-    font-family: "Lucida Console", "Courier New", monospace;
-    margin: auto;
-    margin-top: 25px;
-    margin-left: 4%;
-}
-a{
-    font-family: "Lucida Console", "Courier New", monospace;
-    text-decoration: none;
-    color:whitesmoke;
-}
-a:visited{
-    color:whitesmoke;
-}
-a:hover{
-    color:gray;
+.navbar{
+    position: fixed;
+    top:0;
+    z-index: 555;
+    width: 100%;
 }
 .friend{
     font-size: 5vh;
+}
+
+h1,h2,h3,h4,h5{
+    color:aliceblue;
+}
+
+nav .navbar-nav li a{
+    color: white !important;
+    font-size: 1.5em;
+    }
+
+nav .navbar-nav li a:hover{
+    border-bottom: 1px solid white;
+    }
+
+.main_content{
+    padding-top: 100px;
+    height: 900px;
+    background: rgb(255,0,0);
+    background: linear-gradient(151deg, rgba(255,0,0,1) 13%, rgba(0,0,0,1) 40%, rgba(0,0,0,1) 100%);
+}
+.card-title{
+    color:black !important;
+}
+.my_message{
+    background-color:rgba(255, 0, 0, 0.7); 
+    border-radius: 10px;
+    margin-top: 3px;
+    text-align: right;
+}
+.other_message{
+    background-color:rgba(251, 255, 0, 0.705); 
+    border-radius: 10px;
+    margin-top: 3px;
+}
+
+.profile_image{
+    width: 100%;
+    max-height: 500px;
+}
+
+
+.main_page_card{
+    width: 100%;
+    
+}
+.chat_message{
+    word-wrap: break-word;
+    padding: 12px;
+    
+}
+#message_input{
+    border-radius: 20px;
+    height: 50px;
+
+}
+#message_button{
+    border-radius: 20px;
+    background: rgb(255,0,0);
+    background: linear-gradient(151deg, rgba(255,0,0,1) 21%, rgba(0,0,0,1) 47%, rgba(255,0,0,1) 80%);
+    color:white;
+    border: solid 3px white;
+    height: 50px;
 }

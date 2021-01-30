@@ -45,7 +45,7 @@ class FriendInvitation(models.Model):
 class ChatMessage(models.Model):
     content = models.CharField(max_length=300)
     owner = models.ForeignKey(Profile, related_name='+', null=True,on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
     chat = models.ManyToManyField("ChatBox", related_name='+')
     displayed = models.BooleanField(default=False)
 
@@ -61,4 +61,10 @@ class ChatBox(models.Model):
         for user in self.users.all():
             chat_name += str(user.user.username)
         return str(chat_name)
+    
+    def get_last_message(self):
+        last_message = self.messages.all().latest("-date")
+        print(last_message)
+        return last_message
+        
 

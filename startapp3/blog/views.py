@@ -28,15 +28,10 @@ def MainPage(request):
         profile_chats = profile.chats.all()
         for chat in profile_chats:
             for message in chat.messages.all():
-                print(message)
                 if not message.displayed:
                     if not message.owner == profile:
                         new_messages +=1
         context["new_messages"] = new_messages
-
-
-
-        
     return render(request, "blog/mainpage.html",context=context)
 
 class RegistrationView(View):
@@ -85,17 +80,19 @@ class ProfileView(View):
                 context["chat"]=chat
             else: 
                 context["have_chat"]=False
-        print(friends_id)
         return render(request, 'blog/profile.html',context)
     def post(self, request, pk):
-        image = request.FILES["image"]
-        profile = Profile.objects.all().get(id=pk)
-        user = profile.user
-        profile_image = ProfileImage(profile=user,image=image)
-        profile_image.save()
-        profile.images.add(profile_image)
-        profile.save()
-        return redirect('profile', pk=pk)
+        try:
+            image = request.FILES["image"]
+            profile = Profile.objects.all().get(id=pk)
+            user = profile.user
+            profile_image = ProfileImage(profile=user,image=image)
+            profile_image.save()
+            profile.images.add(profile_image)
+            profile.save()
+            return redirect('profile', pk=pk)
+        except:
+            return redirect('profile', pk=pk)
 
 
 class EditProfileView(View):
@@ -229,6 +226,8 @@ class ChatView(View):
             for user_x in chat.users.all():
                 if not user_x == user:
                     context["second_user"] = user_x
+                else:
+                    context["first_user"] = user_x
             if not user in chat.users.all():
                 return HttpResponse("Błąd")
 
@@ -246,7 +245,6 @@ class ChatMessageCreate(View):
         m.save()
         chat.messages.add(m)
         chat.save()
-        print(m)
         return JsonResponse(list("ok"),safe=False)
 
 class GetChatMessages(View):
@@ -257,9 +255,9 @@ class GetChatMessages(View):
         profile = Profile.objects.all().get(id=profile_id)
         
         chat = ChatBox.objects.all().get(id=chat_id)
-        messages = chat.messages.all().order_by("-date")[:30]
+        messages = chat.messages.all().order_by("date").reverse()[:20]
         data = messages.values()
-
+        
         for message in chat.messages.all():
             if not message.owner == profile:
                 if message.displayed == False:
@@ -272,7 +270,6 @@ class AllProfileChats(View):
         context={}
         current_user = request.user.profile
         context["chats"] =  current_user.chats.all()
-        print(current_user.chats.all())
         return render(request,"blog/all_chats.html", context)
 
 

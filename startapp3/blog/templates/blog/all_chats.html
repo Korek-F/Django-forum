@@ -6,8 +6,10 @@
         <a href="{%url 'chat' chat.id %}" class="btn btn-primary">
         {%for chat_user in chat.users.all%}
             {%if not chat_user == user.profile%}
-                {{chat_user}}
+                {{chat_user}} 
+                {{chat.get_last_message}}
             {%endif%}
+            
         {%endfor%}
         </a>
         
