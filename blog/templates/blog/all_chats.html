@@ -1,0 +1,19 @@
+{% extends "blog/base.html"%}
+{%block content%}
+<div class="container background_v1" >
+<h1>Czaty</h1>
+    
+    {%for chat in chats%}
+        <a href="{%url 'chat' chat.id %}" class="btn btn-primary">
+        {%for chat_user in chat.users.all%}
+            {%if not chat_user == user.profile%}
+                {{chat_user}} 
+                {{chat.get_last_message}}
+            {%endif%}
+            
+        {%endfor%}
+        </a>
+        
+    {%endfor%}
+</div>
+{% endblock %}
