@@ -1,33 +1,43 @@
 {% extends "blog/base.html"%}
 {%block content%}
-<h1>Registration</h1>
+<h1>Rejestracja</h1>
 {%if error%}
 {{error}}
 {%endif%}
 <form action="{% url 'registration' %}" method="post">
     {% csrf_token %}
     <input 
+        style="margin:10px;"
+        class="form-control"
         type="text"
         name="username"
         placeholder="Username"
         id="usernameField" />
     <input
+        style="margin:10px;"
+        class="form-control"
         type="email"
         name="email"
         placeholder="Email"
         id="emailField"/>
     <input 
+        style="margin:10px;"
+        class="form-control"
         type="password"
         name="password"
         placeholder="Password"
         id="passwordField"/>
     <input 
+        style="margin:10px;"
+        class="form-control"
         type="date"
         name="date"
         placeholder="Birth Date"
         id="birthdateField"/>
 
     <input 
+        style="margin:10px;"
+        class="form-control"
         type="submit" 
         value="Register" 
         class="btn btn-block btn-primary submit-btn" />

@@ -9,6 +9,7 @@ urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login_to_blog"),
     path("profile/<int:pk>", views.ProfileView.as_view(), name="profile"),
     path("profile/edit/<int:pk>", views.EditProfileView.as_view(), name="edit_profile"),
+     path("profile/delete/<int:pk>", views.DeleteProfileView.as_view(), name="delete_profile"),
     path("remove_image/<int:pk>/<int:id>", views.RemoveImage, name="remove_image"),
     path("profile/friend_list/<int:pk>", views.FriendListView.as_view(), name="friend_list"),
     path("invite/<int:pk1>/<int:pk2>/<int:id>", views.CreateFriendRequest, name="create_friend_request"),
@@ -20,5 +21,6 @@ urlpatterns = [
     path('chat/create_message', csrf_exempt(views.ChatMessageCreate.as_view()), name='create_message'),
     path('chat/get_messages', csrf_exempt(views.GetChatMessages.as_view()), name='get_messages'),
     path('all_chats', views.AllProfileChats.as_view(), name='all_chats'),
+    path('auth_error', views.AuthorizationError.as_view(), name='auth_error'),
 
 ]

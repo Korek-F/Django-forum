@@ -98,6 +98,8 @@ class ProfileView(View):
 class EditProfileView(View):
     def get(self, request, pk):
         profile = Profile.objects.all().get(id=pk)
+        if not profile == request.user.profile:
+            return redirect('auth_error')
         form = EditProfileForm(
             initial={
             'first_name': profile.first_name,
@@ -147,6 +149,8 @@ def RemoveImage(request, pk, id):
 class FriendListView(View):
     def get(self, request, pk):
         profile = get_object_or_404(Profile, pk=pk)
+        if not profile == request.user.profile:
+            return redirect('auth_error')
         friend_requests = FriendInvitation.objects.all().filter(profile_to=profile)
         for friend_request in friend_requests:
             friend_request.displayed = True
@@ -228,11 +232,42 @@ class ChatView(View):
                     context["second_user"] = user_x
                 else:
                     context["first_user"] = user_x
-            if not user in chat.users.all():
-                return HttpResponse("Błąd")
 
+            if not user in chat.users.all():
+                context["error"]=True
+                print("Aa")
+                return render(request, "blog/chat.html", context)
+        else:
+            return redirect('auth_error')
         return render(request, "blog/chat.html", context)
 
+class DeleteProfileView(View):
+    def get(self, request, pk):
+        profile = Profile.objects.all().get(id=pk)
+        if not profile == request.user.profile:
+            return redirect('auth_error')
+        context={
+            'profile':profile,
+        }
+        return render(request, "blog/deleteaccount.html", context)
+
+    def post(self, request, pk):
+        current_user = request.user
+        password = request.POST["password"]
+        profile = Profile.objects.all().get(id=pk)
+        context={
+            'profile':profile,
+        }
+        if not profile == request.user.profile:
+            return redirect('auth_error')
+        if not current_user.check_password(password):
+            context["message"] = "złe hasło"
+            print(profile.user.password)
+            return render(request, "blog/deleteaccount.html", context)
+        current_user.profile.delete()
+        current_user.delete()
+        return redirect('mainpage')
+    
 class ChatMessageCreate(View):
     def post(self, request):
         data = json.loads(request.body)
@@ -269,11 +304,15 @@ class AllProfileChats(View):
     def get(self, request):
         context={}
         current_user = request.user.profile
+        if not current_user == request.user.profile:
+            return redirect('auth_error')
         context["chats"] =  current_user.chats.all()
         return render(request,"blog/all_chats.html", context)
 
 
-
+class AuthorizationError(View):
+    def get(self, request):
+        return render(request,"blog/autherror.html")
 
 
 

@@ -1,5 +1,6 @@
 {% extends "blog/base.html"%}
 {%block content%}
+<div class="container background_v1" >
 <h1>Czaty</h1>
     
     {%for chat in chats%}
@@ -14,4 +15,5 @@
         </a>
         
     {%endfor%}
+</div>
 {% endblock %}

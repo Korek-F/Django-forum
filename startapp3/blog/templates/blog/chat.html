@@ -1,7 +1,8 @@
 {% extends "blog/base.html"%}
+{%load static%}
 {%block content%}
-{% if user.is_authenticated%}
-<div class="container">
+{% if user.is_authenticated and not error %}
+<div class="container background_v1">
     <h2 style="color:white;">{{second_user.get_name}}</h2>
 
 
@@ -40,9 +41,9 @@
 
                     if(owner_id=={{user.profile.id}}){
                     new_message.innerHTML = `
-                    <div class="chat_message other_message" 
+                    <div style="color:black;" class="chat_message other_message" 
                     title=${date}>
-                    <strong> {{second_user.get_name}} </strong>
+                    <strong "> {{second_user.get_name}} </strong>
                     <br />${content2}</div> `
                     }else{
                     new_message.innerHTML = `
@@ -71,6 +72,9 @@
 </script>
 
 {%else%}
-Brak dostępu
+<div>
+    <h1>Brak dostępu</h1>
+    <img src="{% static 'bonk.png'%}" >
+</div>
 {%endif%}
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends "blog/base.html"%}
 {%block content%}
+<div class="container background_v1" >
 <h1>Znajomi</h1>
 {%for friend in profile.friends.all%}
 <a href="{% url 'profile' friend.id%}"  class="btn btn-success friend">
@@ -33,4 +34,5 @@
     </div>
     {%endif%}
 {%endfor%}
+</div>
 {% endblock %}

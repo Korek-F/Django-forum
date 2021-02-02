@@ -22,7 +22,7 @@
 -->
 {% if user.is_authenticated%}
 
-<div class="container">
+<div class="container background_v1">
     <div class="row">
     {% for profile in profiles%}
         {%if not profile.user.id == user.id%}
@@ -30,15 +30,17 @@
             <div class="card main_page_card" style="margin-top: 10px;">
                 <div class="card-body">
                 {% if profile.images%}
-                <div style="width: 100%; ">
+                <div style="width: 100%; position:relative;">
                     {%for image in profile.images.all %}
                         {% if forloop.first %}
                             <img src="{{image.image.url}}" class="profile_image">
+                            <div class="fake_box"> </div>
                             <br />
                         {%endif%}
                     {%endfor%}
                 </div>
                 {%endif%}
+                
                 <h5 class="card-title">
                 {{profile.get_name}}
                 
