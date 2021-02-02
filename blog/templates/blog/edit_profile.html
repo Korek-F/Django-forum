@@ -1,6 +1,6 @@
 {% extends "blog/base.html"%}
 {%block content%}
-<div class="container background_v1" >
+<div class="container background_v1" style="color:white;">
 <h1>Edytuj profil</h1>
 <form method="post" action="{%url 'edit_profile' profile.id%}">
     {% csrf_token %}

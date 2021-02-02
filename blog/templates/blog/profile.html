@@ -62,12 +62,14 @@
         Brak danych
         {% endif %}
     <br />
+    <span style="word-break: break-all;">
         Opis :
         {%if profile.description %}
             {{profile.description}}
         {% else %}
             Brak danych
         {% endif %}
+    </span>
     <br />
         {%if profile.friends.all%}
             Znajomi:

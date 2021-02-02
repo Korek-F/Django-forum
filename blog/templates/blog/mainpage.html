@@ -32,11 +32,15 @@
                 {% if profile.images%}
                 <div style="width: 100%; position:relative;">
                     {%for image in profile.images.all %}
-                        {% if forloop.first %}
+                        {% if forloop.last %}
                             <img src="{{image.image.url}}" class="profile_image">
                             <div class="fake_box"> </div>
                             <br />
                         {%endif%}
+                    {%empty%}
+                          <img src="{% static 'user.png' %}" class="profile_image">
+                          <div class="fake_box"> </div>
+                        <br />  
                     {%endfor%}
                 </div>
                 {%endif%}
@@ -45,18 +49,18 @@
                 {{profile.get_name}}
                 
                 {% if not profile.gender == None%}
-                <small>{{profile.gender}}</small>
+                <small>({{profile.gender}})</small>
                 {%endif%}
                 </h5>
                 <p class="card-text">Wiek: {{profile.get_age}} lat</p>
-                <p class="card-text">
+                <p class="card-text main_page_desc" >
                 {% if profile.description %}
-                    {{profile.description}}
+                    {{profile.description|truncatechars:70}}
                     {% else %}
                     Brak opisu
                 {%  endif   %}
                 </p>
-                <a href="{%url 'profile' profile.id%}" class="btn btn-danger">Zobacz pełny profil</a>
+                <a href="{%url 'profile' profile.id%}" style="width:100%;" class="btn btn-danger">Zobacz pełny profil</a>
                 </div>
             </div>
         </div>

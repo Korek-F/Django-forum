@@ -100,3 +100,10 @@ nav .navbar-nav li a:hover{
     width:300px;
     height: 300px;
 }
+
+.main_page_desc{
+    background-color: rgb(238, 109, 109)!important;
+    border-radius: 10px;
+    padding:5px;
+    height:80px;
+}

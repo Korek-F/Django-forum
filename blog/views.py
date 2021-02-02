@@ -125,8 +125,11 @@ class EditProfileView(View):
         last_name = request.POST["last_name"]
         country = request.POST["country"]
         city = request.POST["city"]
+        dzero = 0
         height = request.POST["height"]
+        height = height if height else dzero
         weight = request.POST["weight"]
+        weight = weight if weight else dzero
         gender = request.POST["gender"]
         profile.birth_date = birth_date
         profile.description = description
