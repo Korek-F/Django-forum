@@ -1,0 +1,97 @@
+{% extends "blog/base.html"%}
+{% load static %}
+{%block content%}
+<div class="container background_v1" style="color:white;" >
+<h1>Wyszukaj swojego znajomego!</h1>
+<form action="{% url 'find_friend' %}" method="post">
+    {% csrf_token %}
+    <input 
+    style="margin:10px;"
+    type="text" 
+    class="form-control"
+    name="name"
+    placeholder="Imię"
+    value="{{fieldValues.name}}"
+    />
+    <input 
+    style="margin:10px;"
+    type="text" 
+    class="form-control"
+    name="surname"
+    placeholder="Nazwisko"
+    value="{{fieldValues.surname}}"
+    />
+    <input 
+    style="margin:10px;"
+    type="text" 
+    class="form-control"
+    name="nickname"
+    placeholder="Nick"
+    value="{{fieldValues.nickname}}"
+    />
+    <input 
+    style="margin:10px;"
+    type="text" 
+    class="form-control"
+    name="profileid"
+    placeholder="Id"
+    value="{{fieldValues.profileid}}"
+    />
+    <input 
+    type="submit"
+    style="margin:10px;"
+    class="form-control" />
+</form>
+{%if profiles%}
+    <div class="container">
+        <div class="row">
+            {% for profile in profiles%}
+                {%if not profile.user.id == user.id%}
+                <div class="col-sm-12 col-md-6 col-lg-4" style="color:black;">
+                    <div class="card main_page_card" style="margin-top: 10px;">
+                        <div class="card-body">
+                        {% if profile.images%}
+                        <div style="width: 100%; position:relative;">
+                            {%for image in profile.images.all %}
+                                {% if forloop.last %}
+                                    <img src="{{image.image.url}}" class="profile_image">
+                                    <div class="fake_box"> </div>
+                                    <br />
+                                {%endif%}
+                            {%empty%}
+                                <img src="{% static 'user.png' %}" class="profile_image">
+                                <div class="fake_box"> </div>
+                                <br />  
+                            {%endfor%}
+                        </div>
+                        {%endif%}
+                        
+                        <h5 class="card-title">
+                        {{profile.get_name}}
+                        
+                        {% if not profile.gender == None%}
+                        <small>({{profile.gender}})</small>
+                        {%endif%}
+                        </h5>
+                        <p class="card-text">Wiek: {{profile.get_age}} lat</p>
+                        <p class="card-text main_page_desc" >
+                        {% if profile.description %}
+                            {{profile.description|truncatechars:70}}
+                            {% else %}
+                            Brak opisu
+                        {%  endif   %}
+                        </p>
+                        <a href="{%url 'profile' profile.id%}" style="width:100%;" class="btn btn-danger">Zobacz pełny profil</a>
+                        </div>
+                    </div>
+                </div>
+                {%endif%}
+            {%endfor%}
+        </div>
+    </div>
+{%  endif %}
+{{lookup_error}}
+</div>
+{% endblock %}
+
+

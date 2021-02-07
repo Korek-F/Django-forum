@@ -39,7 +39,7 @@
                     }
                     content2 = safe_tags(content)
 
-                    if(owner_id=={{user.profile.id}}){
+                    if(owner_id!=={{user.profile.id}}){
                     new_message.innerHTML = `
                     <div style="color:black;" class="chat_message other_message" 
                     title=${date}>

@@ -29,7 +29,9 @@ class Profile(models.Model):
         age = int((datetime.date.today() - self.birth_date).days/365.25)
         return age
     def get_name(self):
-        if self.first_name:
+        if self.first_name and self.last_name:
+            return str(str(self.first_name)+" "+str(self.last_name))
+        elif self.first_name:
             return self.first_name
         else: 
             return self.user.username

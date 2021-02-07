@@ -1,11 +1,16 @@
 *{
     box-sizing: border-box;
 }
+
+:root {
+    --ramka: rgb(129, 6, 160);
+  }
+
 nav{
     background: rgb(255,0,0);
     background: linear-gradient(16deg, rgba(255,0,0,1) 29%, rgba(0,0,0,1) 63%, rgba(0,0,0,1) 100%);
     
-    border-bottom: white solid 1px;
+    border-bottom: var(--ramka) solid 3px;
 }
 body{
     background-repeat: no-repeat;
@@ -42,7 +47,7 @@ nav .navbar-nav li a:hover{
     padding-top: 100px;
     min-height: 800px;
     background: rgb(255,0,0);
-    background: linear-gradient(151deg, rgba(255,0,0,1) 13%, rgba(0,0,0,1) 40%, rgba(0,0,0,1) 100%);
+    background: linear-gradient(151deg, rgba(255,0,0,1) 5%, rgba(0,0,0,1) 40%, rgba(0,0,0,1) 100%);
 }
 .card-title{
     color:black !important;
@@ -91,6 +96,7 @@ nav .navbar-nav li a:hover{
 }
 
 .background_v1{
+    border: solid 2px var(--ramka);
     border-radius: 50px;
     padding: 25px;
     background-color:rgba(0, 0, 0, 0.4); 
@@ -98,12 +104,38 @@ nav .navbar-nav li a:hover{
 }
 .fake_box{
     width:300px;
-    height: 300px;
+    height: 278px;
 }
 
 .main_page_desc{
     background-color: rgb(238, 109, 109)!important;
     border-radius: 10px;
     padding:5px;
-    height:80px;
+    height:120px;
+}
+
+.profile_image_class{
+    margin-top: 10px;
+    border:solid 2px var(--ramka);
+    border-radius:10px;
+    width:100%;
+    background-color: white;
+}
+
+.profile_info{
+    border:solid 2px  var(--ramka);
+    margin-top: 10px;
+    width:100%;
+    border-radius:10px;
+    background-color: rgb(255, 255, 255, 0.9);
+    word-wrap: break-word;
+   
+}
+#info{
+    border-radius: 10px;
+    margin-top:10px;
+    background-color: var(--ramka);
+    color:white;
+    padding:10px;
+    display: none;
 }

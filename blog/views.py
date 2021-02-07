@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import EditProfileForm, ProfileImageForm
 from django.http import JsonResponse
 import json
+from django.db.models import Q
 
 # Create your views here.
 def MainPage(request):
@@ -48,16 +49,17 @@ class RegistrationView(View):
                     return render(request, "blog/registration.html", {'error':"Złe hasło"})
                 user= User.objects.create_user(username=username, email=email)
                 user.set_password(password)
-                user.save()
+                user.save() 
                 profile = Profile(user=user,birth_date=birth_date)
                 profile.save()
+               
+
                 return redirect('login_to_blog')
         return render(request, "blog/registration.html", {'error':'Zła nazwa'})
         
 class LoginView(View):
     def get(self, request):
         return render(request, 'blog/login_to_blog.html')
-
  
 class ProfileView(View):
     def get(self, request, pk):
@@ -93,7 +95,6 @@ class ProfileView(View):
             return redirect('profile', pk=pk)
         except:
             return redirect('profile', pk=pk)
-
 
 class EditProfileView(View):
     def get(self, request, pk):
@@ -222,7 +223,6 @@ def startchat(request, id):
     user2.save()
     return redirect('chat', id=new_chat.id)
 
-
 class ChatView(View):
     def get(self, request, id):
         context={}
@@ -312,37 +312,47 @@ class AllProfileChats(View):
         context["chats"] =  current_user.chats.all()
         return render(request,"blog/all_chats.html", context)
 
-
 class AuthorizationError(View):
     def get(self, request):
         return render(request,"blog/autherror.html")
 
+class FindFriendView(View):
+    def get(self,request):
+        return render(request, "blog/find_friend.html")
+    def post(self, request):
+        name = request.POST["name"]
+        lastname = request.POST["surname"]
+        nickname = request.POST["nickname"]
+        profileid = request.POST["profileid"]
+        profiles = Profile.objects.all()
+        context={
+            'fieldValues': request.POST
+        }
+        lookup_error = "Niestety nie znaleźliśmy osoby którą szukasz. Sprawdz czy poprawnie wpisałeś dane."
+        if name:
+            profiles = profiles.filter(first_name__contains=str(name))
+            if not profiles:
+                context["lookup_error"] = lookup_error
+                return render(request, "blog/find_friend.html",context)
+        if lastname:
+            profiles = profiles.filter(last_name__contains=str(lastname))
+            if not profiles:
+                context["lookup_error"] = lookup_error
+                return render(request, "blog/find_friend.html",context)
+        if nickname:
+            profiles = profiles.filter(user__username__contains=str(nickname))
+            if not profiles:
+                context["lookup_error"] = lookup_error
+                return render(request, "blog/find_friend.html",context)
+        if profileid:
+            profiles = profiles.filter(pk=profileid)
+            if not profiles:
+                context["lookup_error"] = lookup_error
+                return render(request, "blog/find_friend.html", context)
+
+        context["profiles"]=profiles
+
+        return render(request, "blog/find_friend.html", context)
 
 
 
-
-
-
-
-
-
-
-            
-        """
-        if chats.filter(user1=current_user,user2=second_user).exists():
-            chat = chats.get(user1=current_user,user2=second_user)
-            context["chat"]=chat
-            
-        elif chats.filter(user2=current_user,user1=second_user).exists():
-            chat = chats.get(user2=current_user,user1=second_user)
-            context["chat"]=chat
-          
-        if 1:
-            chat = ChatBox(user1=current_user, user2=second_user)
-            chat.save()
-            current_user.chats.add(chat)
-            current_user.save()
-            second_user.chats.add(chat)
-            second_user.save()
-            context["chat"] = chat
-        """

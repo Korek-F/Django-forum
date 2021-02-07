@@ -1,6 +1,60 @@
 {% extends "blog/base.html"%}
+{% load static %}
 {%block content%}
-<div style="color:white;" class="container background_v1">
+<div class="container background_v1">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-4"> 
+            <div class="profile_image_class">
+                {% if profile.images%}
+                <div style="width: 100%; position:relative;">
+                    {%for image in profile.images.all %}
+                        {% if forloop.last %}
+                            <img src="{{image.image.url}}" class="profile_image">
+                            <div class="fake_box"> </div>
+                            <br />
+                        {%endif%}
+                    {%empty%}
+                          <img src="{% static 'user.png' %}" class="profile_image">
+                          <div class="fake_box"> </div>
+                        <br />  
+                    {%endfor%}
+                </div>
+                {%endif%}
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-8"> 
+            <div class="profile_info" style="padding:10px;">
+                <h1 style="color:black;">{{profile.get_name}}</h1>
+                <button type="button" id="info_button" class="btn btn-dark">Więcej info</button>
+                <div id="info">
+                    <div class="container" >
+                    Data urodzenia: {{profile.birth_date}} <br/>
+                    {%if profile.country%}
+                    Kraj: {{profile.country}}  <br/>   
+                    {%endif%}
+                    {%if profile.city%}
+                    Miasto: {{profile.city}}  <br/>
+                    {%endif%} 
+                    {%if profile.gender %}
+                    Płeć {{profile.gender}} <br/>
+                    {% endif %}
+                    {%if profile.weight %}
+                    Waga: {{profile.weight}} <br/>
+                    {% endif %}
+                    {%if profile.height %}
+                    Wzrost: {{profile.height}} <br/>
+                    {% endif %}
+                    {%if profile.description %}
+                     Opis:  {{profile.description}}<br/>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 
     {{profile.user.username}} 
     {%if user.profile.id == profile.id%}
     <a href="{%url 'edit_profile' profile.id%}" class="btn btn-primary">Edytuj</a>
@@ -139,7 +193,21 @@
                 {%endif%}
                 </div>
             {%endif%}
-        {%endif%}
+        {%endif%}-->
 </div>
+<script>
+info_button = document.getElementById("info_button")
+info = document.getElementById("info")
+shown = false
+info_button.addEventListener("click", function(){
+if(shown){
+    shown = false
+    info.style.display="none"
+}else{
+    shown = true
+    info.style.display="block"
+}
+})
 
+</script>
 {% endblock %}

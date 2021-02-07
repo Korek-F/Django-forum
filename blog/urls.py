@@ -22,5 +22,6 @@ urlpatterns = [
     path('chat/get_messages', csrf_exempt(views.GetChatMessages.as_view()), name='get_messages'),
     path('all_chats', views.AllProfileChats.as_view(), name='all_chats'),
     path('auth_error', views.AuthorizationError.as_view(), name='auth_error'),
-
+    path('find_friend', views.FindFriendView.as_view(), name='find_friend'),
 ]
+

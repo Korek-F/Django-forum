@@ -26,7 +26,7 @@
     <div class="row">
     {% for profile in profiles%}
         {%if not profile.user.id == user.id%}
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 col-md-6 col-lg-4" >
             <div class="card main_page_card" style="margin-top: 10px;">
                 <div class="card-body">
                 {% if profile.images%}
