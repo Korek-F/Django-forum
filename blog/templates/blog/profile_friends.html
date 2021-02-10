@@ -1,0 +1,35 @@
+{% extends "blog/base.html"%}
+{% load static %}
+{%block content%}
+<div class="container background_v1" style="color:white;">
+<h1>Znajomi</h1> 
+<a href="{%url 'profile' profile.id%}" style="width:100%; " class="btn btn-dark">Wróć</a>
+    <div class="row">
+            {%for friend in profile.friends.all%}
+                <div class="col-md-4">
+                    {%if profile.images%}
+                        {%for image in friend.images.all%}
+                            {%if forloop.last%}
+                                <div style="background-color: white; margin-top: 10px; position:relative;"> 
+                                    <a href="{%url 'profile' friend.id%}" target="_blank"> 
+                                    <img src="{{image.image.url}}" class="profile_image" >
+                                    <div class="fake_box_2"></div>
+                                    </a>
+                                </div>
+                                <a href="{%url 'profile' friend.id%}" style="margin:2%; width:96%;" class="btn btn-light" target="_blank"> {{friend.get_name}}</h3></a>
+                            {%endif%}
+                            {%empty%}
+                                <div style="background-color: white; margin-top: 10px; position:relative;"> 
+                                    <a href="{%url 'profile' friend.id%}" target="_blank"> 
+                                    <img src="{% static 'user.png' %}" class="profile_image" >
+                                    <div class="fake_box_2"></div>
+                                    </a>
+                                </div>
+                                <a href="{%url 'profile' friend.id%}" style="margin:2%; width:96%;" class="btn btn-light" target="_blank"> {{friend.get_name}}</h3></a>
+                        {% endfor %}
+                    {%endif%}
+                </div>
+                {%endfor%}
+            </div>
+</div>
+{% endblock %}

@@ -30,7 +30,7 @@ class Profile(models.Model):
         return age
     def get_name(self):
         if self.first_name and self.last_name:
-            return str(str(self.first_name)+" "+str(self.last_name))
+            return str(str(self.first_name)+" "+str(self.last_name)) #+" ("+str(self.user.username)+")"
         elif self.first_name:
             return self.first_name
         else: 

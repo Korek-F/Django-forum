@@ -9,7 +9,7 @@ urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login_to_blog"),
     path("profile/<int:pk>", views.ProfileView.as_view(), name="profile"),
     path("profile/edit/<int:pk>", views.EditProfileView.as_view(), name="edit_profile"),
-     path("profile/delete/<int:pk>", views.DeleteProfileView.as_view(), name="delete_profile"),
+    path("profile/delete/<int:pk>", views.DeleteProfileView.as_view(), name="delete_profile"),
     path("remove_image/<int:pk>/<int:id>", views.RemoveImage, name="remove_image"),
     path("profile/friend_list/<int:pk>", views.FriendListView.as_view(), name="friend_list"),
     path("invite/<int:pk1>/<int:pk2>/<int:id>", views.CreateFriendRequest, name="create_friend_request"),
@@ -23,5 +23,7 @@ urlpatterns = [
     path('all_chats', views.AllProfileChats.as_view(), name='all_chats'),
     path('auth_error', views.AuthorizationError.as_view(), name='auth_error'),
     path('find_friend', views.FindFriendView.as_view(), name='find_friend'),
+    path("profile/images/<int:pk>", views.ProfileImagesView.as_view(), name="profile_images"),
+    path("profile/friends/<int:pk>", views.ProfileFriendsView.as_view(), name="profile_friends"),
 ]
 

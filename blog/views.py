@@ -64,12 +64,10 @@ class LoginView(View):
 class ProfileView(View):
     def get(self, request, pk):
         profile = Profile.objects.all().get(id=pk)
-        form = ProfileImageForm(request.POST, request.FILES) 
         friends_id = []
         for friend in profile.friends.all():
             friends_id.append(friend.id)
         context={
-            'form':form,
             'profile':profile,
             'friends_id':friends_id,
         }
@@ -148,7 +146,7 @@ def RemoveImage(request, pk, id):
     image = get_object_or_404(ProfileImage, id=pk)
     profile_id = id
     image.delete()
-    return redirect('profile', pk=profile_id)
+    return redirect('profile_images', pk=profile_id)
 
 class FriendListView(View):
     def get(self, request, pk):
@@ -354,5 +352,32 @@ class FindFriendView(View):
 
         return render(request, "blog/find_friend.html", context)
 
+class ProfileImagesView(View):
+    def get(self,request, pk):
+        profile = Profile.objects.all().get(id=pk)
+        form = ProfileImageForm(request.POST, request.FILES) 
+        context={
+            "profile":profile,
+            "form":form,
+        }
+        return render(request, "blog/profile_images.html", context)
+    def post(self, request, pk):
+        try:
+            image = request.FILES["image"]
+            profile = Profile.objects.all().get(id=pk)
+            user = profile.user
+            profile_image = ProfileImage(profile=user,image=image)
+            profile_image.save()
+            profile.images.add(profile_image)
+            profile.save()
+            return redirect('profile_images', pk=pk)
+        except:
+            return redirect('profile_images', pk=pk)
 
-
+class ProfileFriendsView(View):
+    def get(self, request, pk):
+        profile = Profile.objects.all().get(id=pk)
+        context={
+            "profile": profile,
+        }
+        return render(request, "blog/profile_friends.html", context)

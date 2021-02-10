@@ -1,9 +1,11 @@
 *{
     box-sizing: border-box;
+    margin:0;
+    padding:0;
 }
 
 :root {
-    --ramka: rgb(129, 6, 160);
+    --ramka: rgb(148, 38, 38);
   }
 
 nav{
@@ -104,7 +106,7 @@ nav .navbar-nav li a:hover{
 }
 .fake_box{
     width:300px;
-    height: 278px;
+    height: 276px;
 }
 
 .main_page_desc{
@@ -136,6 +138,72 @@ nav .navbar-nav li a:hover{
     margin-top:10px;
     background-color: var(--ramka);
     color:white;
-    padding:10px;
+    padding:5px;
     display: none;
 }
+
+.profile_buttons{
+    border:solid 2px  var(--ramka);
+    margin-top: 10px;
+    border-radius:10px;
+    background-color: rgb(255, 255, 255, 0.9);
+    width:100%;
+    min-height: 60px;
+}
+.btn{
+    width:100%;
+}
+.profile_images_css{
+    border:solid 2px  var(--ramka);
+    margin-top: 10px;
+    border-radius:10px;
+    background-color: rgb(255, 255, 255, 0.9);
+    width:100%;
+    
+}
+
+.mini_fake_box{
+    width:100%;
+    height: 100px;
+}
+
+.mini_profile_image{
+    width: 100%;
+    max-height: auto;
+    position: absolute;
+    clip: rect(0px, auto, 100px, 0px); 
+}
+#images_button{
+    margin:2%;
+    width:96%;
+}
+#images_profile_box{
+    display: flex;
+}
+#friends_profile_box{
+    display: flex;
+}
+#friends_button{
+    margin:2%;
+    width:96%;
+}
+@media only screen and (max-width: 768px) {
+    .mini_profile_image {
+        clip: rect(0px, auto, 300px, 0px);
+    }
+    .mini_fake_box{
+        height: 300px;
+    }
+    .row{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .container{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+  }
+  
+.fake_box_2{
+    height:300px;
+  }
