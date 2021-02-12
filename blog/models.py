@@ -52,7 +52,7 @@ class ChatMessage(models.Model):
     displayed = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.owner)+ " " +str(self.content)
+        return str(self.owner)+ ": " +str(self.content)
 
 class ChatBox(models.Model):
     date = models.DateField(auto_now_add=True)
@@ -66,7 +66,6 @@ class ChatBox(models.Model):
     
     def get_last_message(self):
         last_message = self.messages.all().latest("-date")
-        print(last_message)
         return last_message
         
 

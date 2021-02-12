@@ -1,19 +1,35 @@
 {% extends "blog/base.html"%}
+{%load static%}
 {%block content%}
 <div class="container background_v1" >
 <h1>Czaty</h1>
-    
     {%for chat in chats%}
-        <a href="{%url 'chat' chat.id %}" class="btn btn-primary">
-        {%for chat_user in chat.users.all%}
-            {%if not chat_user == user.profile%}
-                {{chat_user}} 
-                {{chat.get_last_message}}
-            {%endif%}
-            
-        {%endfor%}
-        </a>
-        
+        <div class="all_chats_chat row">
+            {%for chat_user in chat.users.all%}
+                {%if not chat_user == user.profile%}
+                    {%for image in chat_user.images.all%}   
+                        {%if forloop.last%}
+                        <div style="position:relative;" class="all_chats_image_box col-md-4"> 
+                            <img src="{{image.image.url}}"  class="all_chats_image"/>
+                            <div class="all_chats_fake_box"></div>
+                        </div>
+                        {%endif%}
+                    {%empty%}
+                    <div style="position:relative;" class="all_chats_image_box col-md-4"> 
+                        <img src="{% static 'user.png' %}" class="all_chats_image" >
+                        <div class="all_chats_fake_box"></div>
+                    </div>
+                    {%endfor%}
+                    <div class="col-md-9">
+                        <h1 class="all_chats_name"> {{chat_user.get_name}} </h1>
+                        <div class='all_chats_lastmessage'>
+                            {{chat.get_last_message}}
+                        </div>
+                        <a href="{% url 'chat' chat.id%}" style="width:90%; margin:20px;" class="btn btn-dark">Czat</a>
+                    </div>
+                {%endif%}
+            {%endfor%}
+        </div>
     {%endfor%}
 </div>
 {% endblock %}
