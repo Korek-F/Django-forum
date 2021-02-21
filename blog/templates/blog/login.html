@@ -1,7 +1,8 @@
 {% extends "blog/base.html"%}
 {%block content%}
-<h1>Registration</h1>
-<form action="{% url 'login' %}" method="post">
+{% include 'blog/_messages.html'%}
+<h1>Logowanie</h1>
+<form action="{% url 'login2' %}" method="post">
     {% csrf_token %}
     <input type="text" 
     class="form-control" 

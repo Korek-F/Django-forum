@@ -346,9 +346,17 @@ nav .navbar-nav li a:hover{
     clip: rect(0px, auto,300px, 0px); 
 }
 .post_text{
-    word-break: break-all;
+    word-break: break-word;
     margin-top:50px;
     padding:10px;
+    margin-left:200px;
+}
+@media only screen and (max-width: 990px) {
+    .post_text{
+        margin-top:10px;
+        margin-left:10px;
+    }
+
 }
 .post_link{
     color:black;

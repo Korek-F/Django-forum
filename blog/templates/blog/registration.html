@@ -1,5 +1,6 @@
 {% extends "blog/base.html"%}
 {%block content%}
+{% include 'blog/_messages.html'%}
 <h1>Rejestracja</h1>
 {%if error%}
 {{error}}
@@ -35,11 +36,10 @@
         placeholder="Birth Date"
         id="birthdateField"/>
 
-    <input 
+    <button 
         style="margin:10px;"
-        class="form-control"
         type="submit" 
         value="Register" 
-        class="btn btn-block btn-primary submit-btn" />
+        class="btn btn-dark"> Zarejestruj </button>
 </form>
 {% endblock %}

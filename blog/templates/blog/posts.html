@@ -3,7 +3,20 @@
 {%block content%}
 <div class="container background_v1" style="color:white;">
     {% include 'blog/_messages.html'%}
-    <h1 style="color:white;">Posty</h1>
+    <div class="row">
+        <div class="col-sm-12 col-md-2"><h1 style="color:white;">Posty</h1></div>
+        <div class="col-sm-12 col-md-10">
+        <form action="{% url 'posts' %}"method="POST" class="form-control">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Tytuł lub fragment post" class="form-control"/>
+            <select name="title2" class="form-control">
+                <option value="title" class="form-control">Tytuł</option>
+                <option value="text" class="form-control">Tekst</option>
+            </select>
+            <button type="submit" class="form-control btn btn-dark">Szukaj</button>
+        </form>
+        </div>
+    </div>
     <div class="profile_posts_box2" style="color:black;">
         {%for post in posts%}
             <div class="profile_post">
@@ -12,7 +25,7 @@
                  class="my-button" style="width:25%;"
                  >{{post.owner.get_name}}</a>
                  <a href="{%url 'post' post.id %}" 
-                 class="my-button" style="width:25%;"
+                 class="my-button" style="width:50%;"
                  >Zobacz cały post</a>
                  </div>
                 <div class="profile_post_date">{{post.date| date:"d.n.Y"}}r.</div>

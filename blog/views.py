@@ -11,6 +11,8 @@ import json
 from django.db.models import Q
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
 
 # Create your views here.
 def MainPage(request):
@@ -52,20 +54,32 @@ class RegistrationView(View):
         if not User.objects.filter(username=username).exists():
             if not User.objects.filter(email=email).exists():
                 if len(password)<6:
-                    return render(request, "blog/registration.html", {'error':"Złe hasło"})
+                    messages.error(request,"Hasło jest za krótkie!")
+                    return render(request, "blog/registration.html")
                 user= User.objects.create_user(username=username, email=email)
                 user.set_password(password)
                 user.save() 
                 profile = Profile(user=user,birth_date=birth_date)
                 profile.save()
-               
-
                 return redirect('login_to_blog')
-        return render(request, "blog/registration.html", {'error':'Zła nazwa'})
-        
+            messages.error(request, "Konto z tym emailem już istnieje!")
+            return render(request, "blog/registration.html")
+        messages.error(request, "Ta nazwa jest już zajęta!")
+        return render(request, "blog/registration.html")
+
+def login(request):
+    username = request.POST['username']  
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        auth_login(request, user)
+        return redirect('mainpage')
+    else: 
+        messages.error(request,"Błędne dane logowania.")
+        return render(request, 'blog/login.html')
 class LoginView(View):
     def get(self, request):
-        return render(request, 'blog/login_to_blog.html')
+        return render(request, 'blog/login.html')
  
 class ProfileView(View):
     def get(self, request, pk):
@@ -248,7 +262,6 @@ class ChatView(View):
 
             if not user in chat.users.all():
                 context["error"]=True
-                print("Aa")
                 return render(request, "blog/chat.html", context)
         else:
             return redirect('auth_error')
@@ -405,6 +418,34 @@ class PostsView(View):
         for friend in user.friends.all():
             for post in friend.posts.all():
                 posts.append(post)
+        posts.sort(reverse=True, key=myFunc)  
+        paginator = Paginator(posts, 10)
+        page_number = request.GET.get('page')
+        posts = paginator.get_page(page_number)
+        context={
+            'profile':user,
+            'posts':posts,
+        }
+        return render(request, "blog/posts.html", context)
+    def post(self, request):
+        user = request.user.profile
+        posts= []
+        title = request.POST["title"]
+        title2 = request.POST["title2"]
+
+        print(title2)
+        def myFunc(e):
+            e.date_time
+            return e.date_time
+
+        if title2 == "text":
+            for friend in user.friends.all():
+                for post in friend.posts.filter(Q(text__contains=str(title))):
+                    posts.append(post)
+        else: 
+            for friend in user.friends.all():
+                for post in friend.posts.filter(Q(title__contains=str(title))):
+                    posts.append(post)
         posts.sort(reverse=True, key=myFunc)  
         paginator = Paginator(posts, 10)
         page_number = request.GET.get('page')
