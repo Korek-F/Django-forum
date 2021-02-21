@@ -1,0 +1,57 @@
+{% extends "blog/base.html"%}
+{%load static%}
+{%block content%}
+<div class="container background_v1">
+    <div class="post_details">
+        
+           
+                <div class="row friend_image_box" style="padding:3px; margin-top: 10px; position:relative;"> 
+                    <div class="col-sm-6 col-md-2">
+                        {%for image in post.owner.images.all%}
+                        {%if forloop.last%}
+                        <div style="margin-top: 10px; position:relative;">
+                        <img src="{{image.image.url}}" class="mini_post_image" >
+                        <div class="mini_fake_box"></div>
+                        </div>
+                        {%endif%}
+                        {%endfor%}
+                    </div>
+                    <div class="col-sm-6 col-md-10">
+                        <div style="font-size: 40px;">
+                            Autor: <a class="post_link" href="{%url 'profile' post.owner.id%}">{{post.owner.get_name}}</a>
+                        </div>
+                        <div style="font-size: 20px;">{{post.date_time| date:"G:i d.n.Y"}}
+                            {%if user.profile.id == post.owner.id%} 
+                            <form style="display:inline-block;" action="{% url 'delete_post' post.id%}">
+                            <button type="submit" class="btn btn-danger">Usuń post</button>
+                            </form>
+                            {%endif%}
+                        </div>
+                       <div style="font-size: 30px;font-weight:bold; text-transform: capitalize; word-break: break-all;">
+                        {{post.title}}
+                        </div>
+                    </div>
+                </div>
+           <div class="post_text">
+                {{post.text}}
+            </div>
+    </div>
+    <div class="post_comments">
+        <div style="font-size: 40px;">Komentarze</div>
+        <form action='{% url "post" post.id%}' method="POST">
+            {% csrf_token %}
+            <div class="row">
+            <input type="text" class="col-sm-12 col-md-10"  id="comment_text" name="comment"/>
+            <input type="submit" class="col-sm-12 col-md-2"  id="comment_button" />
+            </div>
+        </form>
+        {%for comment in post.comments.all%}
+            <div class="post_comment" title="{{post.date_time| date:'G:i d.n.Y'}}">
+                <a href="{% url 'profile' comment.owner.id%}" class="post_link">{{comment.owner}} </a> - {{comment.text}}
+            </div>
+        {%endfor%}
+    </div>
+    
+</div>
+
+{% endblock %}

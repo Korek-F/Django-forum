@@ -106,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Algiers'
 
 USE_I18N = True
 
@@ -129,4 +129,8 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+from django.contrib import messages
 
+MESSAGE_TAGS= {
+    messages.ERROR:"danger",
+}

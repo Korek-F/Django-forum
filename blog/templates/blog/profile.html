@@ -2,7 +2,7 @@
 {% load static %}
 {%block content%}
 <div class="container background_v1">
-
+    {% include 'blog/_messages.html'%}
     <div class="row">
         <div class="col-sm-12 col-md-4"> 
             <div class="profile_image_class">
@@ -97,13 +97,13 @@
                 {%if not  user.profile.id == profile.id%}
                     {%if not user.profile.id in friends_id %}
                         <div class="col-sm-12 col-md-4">
-                            <form action="{%url 'create_friend_request' user.profile.id profile.id profile.id%}" method="POST">
+                            <form action="{%url 'create_friend_request' profile.id%}" method="POST">
                                 {%csrf_token%}
                                 <button type="submit" class="btn btn-dark" >Dodaj do znajomych</button>
                             </form>
                         </div>
                         {%else%}
-                        <div class="col-sm-12 col-md-4">
+                        <div class="col-sm-12 col-md-4" style="max-height:34px;">
                             <form action="{%url 'remove_friend' user.profile.id profile.id profile.id%}" method="POST" >
                                 {%csrf_token%}
                                 <button type="submit" class="btn btn-danger" >Usuń znajomego</button>
@@ -129,9 +129,41 @@
                 {%endif%}
             </div>
         </div>
-        <div class="profile_posts_box">
-            aaa
-        </div> 
+        {%if user.profile.id == profile.id or user.profile.id in friends_id or user.profile.id == profile.id %}
+            <div class="profile_posts_box">
+                {% if user.profile.id == profile.id %}
+                <form action="{% url 'profile' profile.id%}" method="POST">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Tytuł" name="title" class="form-control" />
+                    <input type="text" placeholder="Wpisz coś czym chcesz się podzielić z innymi" name="text" class="form-control" />
+                    <input type="submit" class="form-control" />
+                </form>
+                {% endif %}
+                {%if user.profile.id in friends_id or user.profile.id == profile.id %}
+                    <h1 style="color:black;">Posty</h1>
+                    {%for post in profile.posts.all%}
+                    <div class="profile_post">
+                        <div class="profile_post_title">
+                        <a  class="normal_link" href="{% url 'post' post.id%}">
+                        {{post.title}}
+                        </a>
+                        </div>
+                        <div class="profile_post_date">{{post.date| date:"d.n.Y"}}r.</div>
+                        <hr />
+                        <div class="profile_post_text">{{post.text}}</div>
+                    </div>
+                    {%empty%}
+                         <div class="profile_post">
+                            {{profile.get_name}} nie napisał/a jeszcze żadnych postów.
+                         </div>
+                    {%endfor%}
+                {%endif%}
+            </div>
+        {%else%}
+            <div class="profile_posts_box_2">
+                
+            </div>
+        {%endif%}
     </div><!--row-->
 </div><!--Container--> 
 <script>

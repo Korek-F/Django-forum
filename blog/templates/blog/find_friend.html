@@ -6,7 +6,7 @@
 <form action="{% url 'find_friend' %}" method="post">
     {% csrf_token %}
     <input 
-    style="margin:10px;"
+    style="margin:10px; width:98%;"
     type="text" 
     class="form-control"
     name="name"
@@ -14,7 +14,7 @@
     value="{{fieldValues.name}}"
     />
     <input 
-    style="margin:10px;"
+    style="margin:10px; width:98%;"
     type="text" 
     class="form-control"
     name="surname"
@@ -22,7 +22,7 @@
     value="{{fieldValues.surname}}"
     />
     <input 
-    style="margin:10px;"
+    style="margin:10px; width:98%;"
     type="text" 
     class="form-control"
     name="nickname"
@@ -30,7 +30,7 @@
     value="{{fieldValues.nickname}}"
     />
     <input 
-    style="margin:10px;"
+    style="margin:10px; width:98%;"
     type="text" 
     class="form-control"
     name="profileid"
@@ -39,7 +39,7 @@
     />
     <input 
     type="submit"
-    style="margin:10px;"
+    style="margin:10px; width:98%;"
     class="form-control" />
 </form>
 {%if profiles%}

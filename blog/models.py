@@ -24,6 +24,7 @@ class Profile(models.Model):
     friends = models.ManyToManyField('self', blank=True)
     images = models.ManyToManyField("ProfileImage", related_name='+',blank=True)
     chats = models.ManyToManyField("ChatBox", related_name='+',blank=True)
+    posts = models.ManyToManyField("Post", related_name='+',blank=True)
     def get_age(self):
         import datetime
         age = int((datetime.date.today() - self.birth_date).days/365.25)
@@ -52,7 +53,7 @@ class ChatMessage(models.Model):
     displayed = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.owner)+ ": " +str(self.content)
+        return str(self.owner.get_name())+ ": " +str(self.content)
 
 class ChatBox(models.Model):
     date = models.DateField(auto_now_add=True)
@@ -65,7 +66,33 @@ class ChatBox(models.Model):
         return str(chat_name)
     
     def get_last_message(self):
-        last_message = self.messages.all().latest("-date")
+        last_message = self.messages.all().latest("date")
         return last_message
         
 
+class Post(models.Model):
+    owner =  models.ForeignKey("Profile", on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    date_time = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=200)
+    text = models.CharField(max_length=4000)
+    comments = models.ManyToManyField("Post_comment", related_name='+')
+
+    class Meta: 
+        ordering = ["-date","-date_time"]
+
+    def __str__(self):
+        return str(self.title)
+
+class Post_comment(models.Model):
+    owner =  models.ForeignKey("Profile", on_delete=models.CASCADE)
+    post =  models.ForeignKey("Post", on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    date_time = models.DateTimeField(auto_now_add=True)
+    text = models.CharField(max_length=2000)
+    
+    class Meta: 
+        ordering = ["-date","-date_time"]
+        
+    def __str__(self):
+        return str(self.text)

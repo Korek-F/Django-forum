@@ -3,19 +3,25 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.views.generic import View
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
-from .models import Profile, ProfileImage, FriendInvitation, ChatMessage, ChatBox
+from .models import Profile, Post, ProfileImage, Post_comment, FriendInvitation, ChatMessage, ChatBox
 from django.contrib.auth.decorators import login_required
 from .forms import EditProfileForm, ProfileImageForm
 from django.http import JsonResponse
 import json
 from django.db.models import Q
+from django.contrib import messages
+from django.core.paginator import Paginator
 
 # Create your views here.
 def MainPage(request):
     profiles = Profile.objects.all()
+    paginator = Paginator(profiles, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context={
-        'profiles':profiles,
+        'profiles':page_obj,
     }
+    
     if request.user.is_authenticated:
         profile = request.user.profile
         new_friend_request = 0
@@ -82,17 +88,18 @@ class ProfileView(View):
                 context["have_chat"]=False
         return render(request, 'blog/profile.html',context)
     def post(self, request, pk):
-        try:
-            image = request.FILES["image"]
-            profile = Profile.objects.all().get(id=pk)
-            user = profile.user
-            profile_image = ProfileImage(profile=user,image=image)
-            profile_image.save()
-            profile.images.add(profile_image)
-            profile.save()
-            return redirect('profile', pk=pk)
-        except:
-            return redirect('profile', pk=pk)
+        user = request.user.profile
+        title = request.POST["title"]
+        text = request.POST["text"]
+        if len(text)>0 and len(title)>0:
+            post = Post(owner=user,title=title, text=text)
+            post.save()
+            user.posts.add(post)
+            user.save()
+            messages.success(request, "Twój post został dodany!")
+        else:
+            messages.error(request, "Twój post nie został dodany. Prawdopodobnie był pusty.")
+        return redirect('profile', pk=pk)
 
 class EditProfileView(View):
     def get(self, request, pk):
@@ -140,6 +147,7 @@ class EditProfileView(View):
         profile.weight = weight
         profile.gender = gender
         profile.save()
+        messages.success(request, "Profil został pomyślnie zedytowany!")
         return redirect('profile', pk=pk)
 
 def RemoveImage(request, pk, id):
@@ -167,12 +175,13 @@ class FriendListView(View):
         
         return render(request, 'blog/friends_list.html', context)
 
-def CreateFriendRequest(request, pk1, pk2, id):
-    profile_from = get_object_or_404(Profile, id=pk1)
-    profile_to = get_object_or_404(Profile, id=pk2)
-    profile_id = id
-    request = FriendInvitation(profile_from=profile_from, profile_to=profile_to)
-    request.save()
+def CreateFriendRequest(request, pk):
+    profile_from = request.user.profile
+    profile_to = get_object_or_404(Profile, id=pk)
+    profile_id = pk
+    f_request = FriendInvitation(profile_from=profile_from, profile_to=profile_to)
+    f_request.save()
+    messages.success(request, "Wysłano zaproszenie do znajomych.")
     return redirect('profile', pk=profile_id)
 
 def AkceptFriendRequest(request, id, pk):
@@ -181,6 +190,7 @@ def AkceptFriendRequest(request, id, pk):
     user2 = get_object_or_404(Profile,id=friend_request.profile_to.id)
     if not user2 in user1.friends.all():
         user1.friends.add(user2)
+        messages.success(request, "Użytkownik został dodany do listy znajomych.")
     friend_request.delete()
     profile_id = pk
     return redirect('friend_list', pk=profile_id)
@@ -191,6 +201,7 @@ def RejectFriendRequest(request, id, pk):
     user2 = get_object_or_404(Profile,id=friend_request.profile_to.id)
     friend_request.delete()
     profile_id = pk
+    messages.success(request, "Zaproszenie do znajomych zostało odrzucone.")
     return redirect('friend_list', pk=profile_id)
 
 def RemoveFriend(request, id1,id2,pk1):
@@ -199,6 +210,7 @@ def RemoveFriend(request, id1,id2,pk1):
     profile_id = pk1
     profile_to.friends.remove(profile_from)
     profile_to.save()
+    messages.success(request, "Użytkownik został usunięty z listy znajomych.")
     return redirect('profile', pk=profile_id)
 
 def startchat(request, id):
@@ -381,3 +393,49 @@ class ProfileFriendsView(View):
             "profile": profile,
         }
         return render(request, "blog/profile_friends.html", context)
+
+class PostsView(View):
+    def get(self, request):
+        user = request.user.profile
+        posts= []
+        def myFunc(e):
+            e.date_time
+            return e.date_time
+
+        for friend in user.friends.all():
+            for post in friend.posts.all():
+                posts.append(post)
+        posts.sort(reverse=True, key=myFunc)  
+        paginator = Paginator(posts, 10)
+        page_number = request.GET.get('page')
+        posts = paginator.get_page(page_number)
+        context={
+            'profile':user,
+            'posts':posts,
+        }
+        print(posts)
+        return render(request, "blog/posts.html", context)
+
+class PostView(View):
+    def get(self, request, pk):
+        post = get_object_or_404(Post, id=pk)
+        context={
+            'post':post,
+        }
+        return render(request, "blog/post.html", context)
+    def post(self, request, pk):
+        post = get_object_or_404(Post, id=pk)
+        user = request.user.profile
+        text = request.POST["comment"]
+        if len(text)>0 and len(text)<2000:
+            comment = Post_comment(owner=user, text=text, post=post)
+            comment.save()
+            post.comments.add(comment)
+            post.save()
+        return redirect('post', pk=pk)
+
+def DeletePost(request, pk):
+    post = get_object_or_404(Post,id=pk)
+    post.delete()
+    messages.success(request, "Post został usunięty")
+    return redirect('posts')

@@ -23,7 +23,7 @@
                     <div class="col-md-9">
                         <h1 class="all_chats_name"> {{chat_user.get_name}} </h1>
                         <div class='all_chats_lastmessage'>
-                            {{chat.get_last_message}}
+                            {{chat.get_last_message|truncatechars:70 }}
                         </div>
                         <a href="{% url 'chat' chat.id%}" style="width:90%; margin:20px;" class="btn btn-dark">Czat</a>
                     </div>

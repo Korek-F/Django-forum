@@ -25,7 +25,7 @@
 <div class="container background_v1">
     <div class="row">
     {% for profile in profiles%}
-        {%if not profile.user.id == user.id%}
+        
         <div class="col-sm-12 col-md-6 col-lg-4" >
             <div class="card main_page_card" style="margin-top: 10px;">
                 <div class="card-body">
@@ -60,12 +60,43 @@
                     Brak opisu
                 {%  endif   %}
                 </p>
-                <a href="{%url 'profile' profile.id%}" style="width:100%;" class="btn btn-danger">Zobacz pełny profil</a>
+                <a href="{%url 'profile' profile.id%}"  class="my-button">Zobacz pełny profil</a>
                 </div>
             </div>
         </div>
-        {%endif%}
+        
     {%endfor%}
+    </div>
+    <div class="pagination row">
+        {% if profiles.has_previous %}
+            <div class="col-md-12 col-lg-2">
+            <a class="pagiantion_obj btn btn-light"
+             href="?page=1">&laquo; Pierwsze</a>
+            </div>
+            <div class="col-md-12 col-lg-2">
+            <a class="pagiantion_obj btn btn-light"  
+            href="?page={{ profiles.previous_page_number }}">Poprzednie</a>
+            </div>
+        {%else%}
+            <div class="pagination_obj col-md-12 col-lg-2" style="height:1px;"></div>
+            <div class="pagination_obj col-md-12 col-lg-2" style="height:1px;"></div>
+        {% endif %}
+
+        <div class="pagiantion_obj pagination_number col-sm-12 col-md-4" >
+            Strona {{ profiles.number }} z {{ profiles.paginator.num_pages }}.
+        </div>
+
+        {% if profiles.has_next %}
+            <div class="col-md-12 col-lg-2">
+            <a class="pagiantion_obj btn btn-light pagiantion_obj" 
+            href="?page={{ profiles.next_page_number }}">Następne</a>
+            </div>
+            <div class="col-md-12 col-lg-2">
+            <a class="pagiantion_obj btn btn-light pagiantion_obj" 
+            href="?page={{ profiles.paginator.num_pages }}">Ostatnie &raquo;</a>
+             </div>
+        {% endif %}
+    
 </div>
 </div>
     {%endif%}

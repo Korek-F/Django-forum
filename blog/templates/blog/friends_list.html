@@ -2,6 +2,7 @@
 {% load static %}
 {%block content%}
 <div class="container background_v1" >
+{% include 'blog/_messages.html'%}
 <h1>Zaproszenia do znajomych</h1>
 <div class="row">
 {%for request in friend_requests%}

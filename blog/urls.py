@@ -12,7 +12,7 @@ urlpatterns = [
     path("profile/delete/<int:pk>", views.DeleteProfileView.as_view(), name="delete_profile"),
     path("remove_image/<int:pk>/<int:id>", views.RemoveImage, name="remove_image"),
     path("profile/friend_list/<int:pk>", views.FriendListView.as_view(), name="friend_list"),
-    path("invite/<int:pk1>/<int:pk2>/<int:id>", views.CreateFriendRequest, name="create_friend_request"),
+    path("invite/<int:pk>", views.CreateFriendRequest, name="create_friend_request"),
     path("akcept_friend_invite/<int:id>/<int:pk>", views.AkceptFriendRequest, name="akcept_firend_request"),
     path("reject_friend_invite/<int:id>/<int:pk>", views.RejectFriendRequest, name="reject_firend_request"),
     path("remove_friend/<int:id1>/<int:id2>/<int:pk1>", views.RemoveFriend, name="remove_friend"),
@@ -25,5 +25,8 @@ urlpatterns = [
     path('find_friend', views.FindFriendView.as_view(), name='find_friend'),
     path("profile/images/<int:pk>", views.ProfileImagesView.as_view(), name="profile_images"),
     path("profile/friends/<int:pk>", views.ProfileFriendsView.as_view(), name="profile_friends"),
+    path("posts", views.PostsView.as_view(), name="posts"),
+    path("post/<int:pk>", views.PostView.as_view(), name="post"),
+    path("delete_post/<int:pk>", views.DeletePost, name="delete_post"),
 ]
 
