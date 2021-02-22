@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile, ProfileImage
+from .models import Profile, ProfileImage, Report_Post
 
 
 class EditProfileForm(forms.Form):
@@ -23,3 +23,9 @@ class ProfileImageForm(forms.ModelForm):
     class Meta:
         model = ProfileImage
         fields = ('image',)
+
+class ReportPostForm(forms.ModelForm):
+    class Meta:
+        model = Report_Post
+        fields = ('report_type',)
+        

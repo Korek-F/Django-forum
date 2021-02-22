@@ -96,3 +96,18 @@ class Post_comment(models.Model):
         
     def __str__(self):
         return str(self.text)
+
+class Report_Post(models.Model):
+    date_time = models.DateTimeField(auto_now_add=True)
+    post =  models.ForeignKey("Post", on_delete=models.CASCADE)
+    REPORT_TYPE=[
+        ("N","Nagość"),
+        ("T","Obraźliwa treść"),
+        ("S","Spam"),
+        ("I","Inne"),
+    ]
+    report_type = models.CharField(max_length=2, choices=REPORT_TYPE, default="T")
+
+    def __str__(self):
+        return str(self.report_type)+" "+str(self.post) 
+    

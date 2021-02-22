@@ -2,6 +2,7 @@
 {%load static%}
 {%block content%}
 <div class="container background_v1">
+    {% include 'blog/_messages.html'%}
     <div class="post_details">
         
            
@@ -25,6 +26,9 @@
                             <form style="display:inline-block;" action="{% url 'delete_post' post.id%}">
                             <button type="submit" class="btn btn-danger">Usuń post</button>
                             </form>
+                            {%endif%}
+                            {%if user.is_authenticated%}
+                                <button id="report_post" class="btn btn-dark" style="width:20%;">Zgłoś</button>
                             {%endif%}
                         </div>
                        <div style="font-size: 30px;font-weight:bold; text-transform: capitalize; word-break: break-all;">
@@ -53,5 +57,34 @@
     </div>
     
 </div>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form action="{% url 'report_post' post.id%}" method="POST">
+            {% csrf_token %}
+            {{form}}
+            <button type="submit">Zgłoś</button>
+        </form>
+    </div>
+</div>
 
+<script type="text/javascript">
+const modal = document.getElementById("myModal");
+const btn = document.getElementById("report_post");
+const span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
 {% endblock %}

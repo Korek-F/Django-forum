@@ -3,9 +3,9 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.views.generic import View
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
-from .models import Profile, Post, ProfileImage, Post_comment, FriendInvitation, ChatMessage, ChatBox
+from .models import Profile, Post, ProfileImage, Post_comment, FriendInvitation, ChatMessage, ChatBox, Report_Post
 from django.contrib.auth.decorators import login_required
-from .forms import EditProfileForm, ProfileImageForm
+from .forms import EditProfileForm, ProfileImageForm, ReportPostForm
 from django.http import JsonResponse
 import json
 from django.db.models import Q
@@ -13,7 +13,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 def MainPage(request):
     profiles = Profile.objects.all()
@@ -81,7 +81,8 @@ class LoginView(View):
     def get(self, request):
         return render(request, 'blog/login.html')
  
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin,View):
+    login_url = '/login/'
     def get(self, request, pk):
         profile = Profile.objects.all().get(id=pk)
         friends_id = []
@@ -115,7 +116,8 @@ class ProfileView(View):
             messages.error(request, "Twój post nie został dodany. Prawdopodobnie był pusty.")
         return redirect('profile', pk=pk)
 
-class EditProfileView(View):
+class EditProfileView(LoginRequiredMixin,View):
+    login_url = '/login/'
     def get(self, request, pk):
         profile = Profile.objects.all().get(id=pk)
         if not profile == request.user.profile:
@@ -460,8 +462,10 @@ class PostsView(View):
 class PostView(View):
     def get(self, request, pk):
         post = get_object_or_404(Post, id=pk)
+        form = ReportPostForm()
         context={
             'post':post,
+            'form':form,
         }
         return render(request, "blog/post.html", context)
     def post(self, request, pk):
@@ -480,3 +484,16 @@ def DeletePost(request, pk):
     post.delete()
     messages.success(request, "Post został usunięty")
     return redirect('posts')
+
+def CreatePostReport(request, pk):
+    post = Post.objects.get(id=pk)
+
+    if Report_Post.objects.filter(post=post).exists():
+        messages.success(request,"Post został zgłoszony!")
+        return redirect('post', pk)
+    else: 
+        messages.success(request,"Post został zgłoszony!")
+        report_type = request.POST["report_type"]
+        report = Report_Post.objects.create(post=post,report_type=report_type)
+        report.save()
+        return redirect('post', pk)
