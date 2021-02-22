@@ -23,9 +23,11 @@
                 {%endif%}
             </div>
             <div class="profile_images_css">
-                <a href="{% url 'profile_images' profile.id %}" style="margin:2%; width:96%;" class="btn btn-dark" >Więcej zdjęć</a>
-                <button type="button" id="images_button" class="btn btn-dark">Schowaj zdjęcia</button>
-                <div class="row" id="images_profile_box" style="padding:3px;">
+                <div class="row">
+                    <div class="col-sm-6"><a href="{% url 'profile_images' profile.id %}" style="margin:2%; width:96%;" class="btn btn-dark" >Więcej zdjęć</a></div>
+                    <div class="col-sm-6"><button type="button" id="images_button" class="btn btn-dark">Schowaj zdjęcia</button></div>
+                </div>
+                <div class="row" id="images_profile_box" style="padding:3px; clear:both;">
                     {%for image in profile.images.all%}
                         <div class="col-md-6 col-lg-4" >
                             <div style="margin-top: 10px; position:relative;">
@@ -39,8 +41,10 @@
                 </div>
             </div>
             <div class="profile_images_css">
-                <a href="{% url 'profile_friends' profile.id %}" style="margin:2%; width:96%;" class="btn btn-dark" >Wszyscy znajomi</a>
-                <button type="button" id="friends_button" class="btn btn-dark">Schowaj znajomych</button>
+                <div class="row">
+                    <div class="col-sm-6"><a href="{% url 'profile_friends' profile.id %}" style="margin:2%; width:96%;" class="btn btn-dark" >Wszyscy znajomi</a></div>
+                    <div class="col-sm-6"><button type="button" id="friends_button" class="btn btn-dark">Schowaj znajomych</button></div>
+                </div>
                 <div class="row" id="friends_profile_box">
                     {%for friend in profile.friends.all|slice:":6"%}
                         
