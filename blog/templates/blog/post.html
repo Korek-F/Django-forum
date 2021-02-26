@@ -63,7 +63,7 @@
         <form action="{% url 'report_post' post.id%}" method="POST">
             {% csrf_token %}
             {{form}}
-            <button type="submit">Zgłoś</button>
+            <button class="form-control"  type="submit">Zgłoś</button>
         </form>
     </div>
 </div>

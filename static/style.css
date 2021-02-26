@@ -404,9 +404,7 @@ input:focus{
     
     position: relative;
 }
-.pagination_obj{
 
-}
 .pagination_number{
     background-color: black;
     color:white;
@@ -429,7 +427,7 @@ input:focus{
     background-color: rgba(0,0,0,0.4); 
   }
   
-  .modal-content {
+.modal-content {
     background-color: #fefefe;
     margin: 15% auto; 
     padding: 30px;
@@ -437,16 +435,17 @@ input:focus{
     width: 70%; 
   }
   
-  .close {
+.close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
   }
   
-  .close:hover,
-  .close:focus {
+.close:hover,
+.close:focus {
     color: var(--ramka);
     text-decoration: none;
     cursor: pointer;
   }
+

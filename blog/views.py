@@ -14,6 +14,8 @@ from django.core.paginator import Paginator
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.signals import user_logged_in, user_logged_out
+from django.dispatch import receiver
 # Create your views here.
 def MainPage(request):
     profiles = Profile.objects.all()
@@ -497,3 +499,4 @@ def CreatePostReport(request, pk):
         report = Report_Post.objects.create(post=post,report_type=report_type)
         report.save()
         return redirect('post', pk)
+
