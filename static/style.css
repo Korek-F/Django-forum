@@ -449,3 +449,6 @@ input:focus{
     cursor: pointer;
   }
 
+form ul{
+  display: none;
+}

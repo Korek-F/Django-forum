@@ -297,15 +297,19 @@ class DeleteProfileView(View):
         current_user.profile.delete()
         current_user.delete()
         return redirect('mainpage')
-    
+from django.utils import timezone
+
+
 class ChatMessageCreate(View):
     def post(self, request):
         data = json.loads(request.body)
         chat_id = data["chat_id"]
         owner_id = data["owner_id"]
         content = data["content"]
+        now = timezone.now()  
         owner = Profile.objects.all().get(id=owner_id)
         chat = ChatBox.objects.all().get(id=chat_id)
+        chat.last_message_date = now
         m = ChatMessage(content=content, owner=owner)
         m.save()
         chat.messages.add(m)
@@ -336,7 +340,7 @@ class AllProfileChats(View):
         current_user = request.user.profile
         if not current_user == request.user.profile:
             return redirect('auth_error')
-        context["chats"] =  current_user.chats.all()
+        context["chats"] =  current_user.chats.all().order_by("-last_message_date")
         return render(request,"blog/all_chats.html", context)
 
 class AuthorizationError(View):
@@ -481,6 +485,17 @@ class PostView(View):
             post.save()
         return redirect('post', pk=pk)
 
+def DeleteComment(request, pk):
+    comment = get_object_or_404(Post_comment,id=pk)
+    post = comment.post
+    comment_author = comment.owner
+    user = request.user.profile
+    if user == comment_author or user == post.owner:
+        comment.delete()
+        return redirect('post', pk=post.id)
+    else:
+        return redirect('auth_error')
+
 def DeletePost(request, pk):
     post = get_object_or_404(Post,id=pk)
     post.delete()
@@ -499,4 +514,25 @@ def CreatePostReport(request, pk):
         report = Report_Post.objects.create(post=post,report_type=report_type)
         report.save()
         return redirect('post', pk)
+
+
+
+from .forms import ResetPassword
+from django.contrib.auth import update_session_auth_hash
+class ChangePasswordView(View):
+    def get(self, request):
+        form  = ResetPassword(request.user)
+        return render(request, "blog/change_password.html",{"form":form})
+    def post(self, request):
+        form = ResetPassword(request.user,request.POST)
+        if form.is_valid():
+            user = request.user
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "Hasło zmienione pomyślnie")
+            return redirect("change_password")
+        else:
+            print(form.errors)
+            messages.error(request, "Błąd")
+            return render(request, "blog/change_password.html",{"form":form})
 

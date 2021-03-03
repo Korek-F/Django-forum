@@ -91,6 +91,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -134,3 +135,4 @@ from django.contrib import messages
 MESSAGE_TAGS= {
     messages.ERROR:"danger",
 }
+

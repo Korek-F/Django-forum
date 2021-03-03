@@ -2,25 +2,53 @@
 {%load static%}
 {%block content%}
 <div class="container background_v1">
-{%if user.profile == profile%}
-<h1> Usuwanie konta </h1>
-<div style="color:white;">Czy napewno chcesz usunąć konto "{{profile.get_name}}"? Ta czynność jest nieodwracalna i na stałe usunie twoje konto.</div>
-<br />
-<div style="color:red; margin-bottom:20px;">{{message}}</div>
-<form action="{%url 'delete_profile' profile.id%}" method="POST">
-    {% csrf_token %}
-    <input type="password" placeholder="Hasło" class="form-control" name="password" />
-    <button type="submit" class="btn btn-danger" style="width:100%;" >Usuń</button>
-</form>
-    <a href="{%url 'profile' profile.id%}" style="width:100%; margin-top:20px;" class="btn btn-primary" >Powrót</a>
-{%else%}
-<h1 style="text-align: center;">Brak dostępu</h1>
-<div style="display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width:235px;">
-    <img  src="{% static 'bonk.png'%}">
+    {%if user.profile == profile%}
+        <h1> Usuwanie konta </h1>
+        <div style="color:white;">Czy napewno chcesz usunąć konto "{{profile.get_name}}"? Ta czynność jest nieodwracalna i na stałe usunie twoje konto.</div>
+        <br />
+        <div style="color:red; margin-bottom:20px;">{{message}}</div>
+        
+        <button id="del_acc"  style="width:100%; margin-top:20px;" class="btn btn-danger" >Usuń</button>
+
+        <a href="{%url 'profile' profile.id%}" style="width:100%; margin-top:20px;" class="btn btn-primary" >Powrót</a>
+            
+        <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="{%url 'delete_profile' profile.id%}" method="POST">
+                {% csrf_token %}
+                <input type="password" placeholder="Hasło" class="form-control" name="password" /><br />
+                <button type="submit" class="btn btn-danger" style="width:100%;" >Usuń</button>
+            </form>
+        </div>
+    </div>
+        {%else%}
+        <h1 style="text-align: center;">Brak dostępu</h1>
+        <div style="display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width:235px;">
+            <img  src="{% static 'bonk.png'%}">
+        </div>
+    {%endif%}
 </div>
-{%endif%}
-</div>
+<script type="text/javascript">
+const modal = document.getElementById("myModal");
+const btn = document.getElementById("del_acc");
+const span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
 {% endblock %}

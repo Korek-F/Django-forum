@@ -30,5 +30,7 @@ urlpatterns = [
     path("post/<int:pk>", views.PostView.as_view(), name="post"),
     path("delete_post/<int:pk>", views.DeletePost, name="delete_post"),
     path("report_post/<int:pk>", views.CreatePostReport, name="report_post"),
+    path("change_password", views.ChangePasswordView.as_view(), name="change_password"),
+    path("delete_comment/<int:pk>", views.DeleteComment, name="delete_comments"),
 ]
 

@@ -15,6 +15,12 @@
                         <div class="mini_fake_box"></div>
                         </div>
                         {%endif%}
+                        {%empty%}
+                        <div style="margin-top: 10px; position:relative;">
+                          <img src="{% static 'user.png' %}" class="mini_post_image">
+                          <div class="mini_fake_box"> </div>
+                        </div>
+                        <br /> 
                         {%endfor%}
                     </div>
                     <div class="col-sm-6 col-md-10">
@@ -51,7 +57,9 @@
         </form>
         {%for comment in post.comments.all%}
             <div class="post_comment" title="{{post.date_time| date:'G:i d.n.Y'}}">
-                <a href="{% url 'profile' comment.owner.id%}" class="post_link">{{comment.owner}} </a> - {{comment.text}}
+                <a href="{% url 'profile' comment.owner.id%}" class="post_link">{{comment.owner}} </a> 
+                <a href="{% url 'delete_comments' comment.id%}" class="post_link">Usuń</a>
+                - {{comment.text}}
             </div>
         {%endfor%}
     </div>

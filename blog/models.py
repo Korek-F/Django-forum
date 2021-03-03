@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 
 class ProfileImage(models.Model):
     profile = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
@@ -10,6 +9,7 @@ class ProfileImage(models.Model):
 
     def __str__(self):
         return (self.profile.username + " "+str(self.add_date))
+
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     birth_date = models.DateField(blank=True,null=True)
@@ -59,6 +59,7 @@ class ChatBox(models.Model):
     date = models.DateField(auto_now_add=True)
     messages = models.ManyToManyField("ChatMessage", related_name='+', blank=True)
     users = models.ManyToManyField("Profile", related_name='+',blank=True)
+    last_message_date = models.DateTimeField(blank=True)
     def __str__(self):
         chat_name = " "
         for user in self.users.all():
