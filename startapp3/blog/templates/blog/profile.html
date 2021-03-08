@@ -1,143 +1,223 @@
 {% extends "blog/base.html"%}
+{% load static %}
 {%block content%}
-<div style="color:white;" class="container background_v1">
-    {{profile.user.username}} 
-    {%if user.profile.id == profile.id%}
-    <a href="{%url 'edit_profile' profile.id%}" class="btn btn-primary">Edytuj</a>
-    <a href="{%url 'delete_profile' profile.id%}" class="btn btn-danger">Usuń konto</a>
-    {%endif%}
-    
-    <br />
-        Imię: 
-        {%if profile.first_name %}
-            {{profile.first_name}}
-        {% else %}
-            Brak danych
-        {% endif %}
-    <br />
-        Nazwisko:
-        {%if profile.last_name %}
-            {{profile.last_name}}
-        {% else %}
-            Brak danych
-        {% endif %}
-    <br />
-        Data urodzenia: 
-        {%if profile.birth_date %}
-            {{profile.birth_date}}
-        {% endif %}
-    <br />
-        Miasto:
-        {%if profile.city %}
-            {{profile.city}}
-        {% else %}
-            Brak danych
-        {% endif %}
-    <br />
-        Kraj:
-        {%if profile.country %}
-            {{profile.country}}
-        {% else %}
-            Brak danych
-        {% endif %}
-    <br />
-        Wzrost: 
-        {%if profile.height %}
-            {{profile.height}}cm
-        {% else %}
-            Brak danych
-        {% endif %} 
-    <br />
-        Waga: 
-        {%if profile.weight %}
-            {{profile.weight}}kg
-        {% else %}
-            Brak danych
-        {% endif %} 
-    <br />
-        Płeć: 
-        {%if profile.gender %}
-            {{profile.gender}}
-        {% else %}
-        Brak danych
-        {% endif %}
-    <br />
-        Opis :
-        {%if profile.description %}
-            {{profile.description}}
-        {% else %}
-            Brak danych
-        {% endif %}
-    <br />
-        {%if profile.friends.all%}
-            Znajomi:
-            {%for friend in profile.friends.all%}
-                <a href="{% url 'profile' friend.id%}"  class="btn btn-success">{{friend}}</a>
-            {%endfor%}
-        {%endif%}
-    <br />
-        
-        Zdjęcia:
-        <div class="container-fluid">
-            <div class="row">
-                {%for image in profile.images.all%}
-                <div class="col-md-3">
-                    <div style="background-color: white; margin-top: 10px; position:relative;"> 
-                        <a href="{{image.image.url}}" target="_blank"> 
-                        <img src="{{image.image.url}}" class="profile_image" >
-                        <div class="fake_box"></div>
-                        </a>
-                        {%if user.profile.id == profile.id%}
-                        <form action="{% url 'remove_image' image.id profile.id%}" method="POST">
-                            {%csrf_token%}
-                            <button type="submit" class="btn btn-primary" style="display:block;margin: 0 auto;">Usuń zdjęcie</button>
-                        </form>
+<div class="container background_v1">
+    {% include 'blog/_messages.html'%}
+    <div class="row">
+        <div class="col-sm-12 col-md-4"> 
+            <div class="profile_image_class">
+                {% if profile.images%}
+                <div style="width: 100%; position:relative;">
+                    {%for image in profile.images.all %}
+                        {% if forloop.last %}
+                            <img src="{{image.image.url}}" class="profile_image">
+                            <div class="fake_box"> </div>
+                            <br />
                         {%endif%}
+                    {%empty%}
+                          <img src="{% static 'user.png' %}" class="profile_image">
+                          <div class="fake_box"> </div>
+                        <br />  
+                    {%endfor%}
+                </div>
+                {%endif%}
+            </div>
+            <div class="profile_images_css">
+                <div class="row">
+                    <div class="col-sm-6"><a href="{% url 'profile_images' profile.id %}" style="margin:2%; width:96%;" class="btn btn-dark" >Więcej zdjęć</a></div>
+                    <div class="col-sm-6"><button type="button" id="images_button" class="btn btn-dark">Schowaj zdjęcia</button></div>
+                </div>
+                <div class="row" id="images_profile_box" style="padding:3px; clear:both;">
+                    {%for image in profile.images.all%}
+                        <div class="col-md-6 col-lg-4" >
+                            <div style="margin-top: 10px; position:relative;">
+                                <a href="{{image.image.url}}" target="_blank"> 
+                                    <img src="{{image.image.url}}" class="mini_profile_image" >
+                                    <div class="mini_fake_box"></div>
+                                </a>
+                            </div>
+                        </div>
+                    {%endfor%}
+                </div>
+            </div>
+            <div class="profile_images_css">
+                <div class="row">
+                    <div class="col-sm-6"><a href="{% url 'profile_friends' profile.id %}" style="margin:2%; width:96%;" class="btn btn-dark" >Wszyscy znajomi</a></div>
+                    <div class="col-sm-6"><button type="button" id="friends_button" class="btn btn-dark">Schowaj znajomych</button></div>
+                </div>
+                <div class="row" id="friends_profile_box">
+                    {%for friend in profile.friends.all|slice:":6"%}
+                        
+                        <div class="col-md-6 col-lg-4" >
+                            <div class="friend_image_box" style="padding:3px;"> 
+                            <a href="{%url 'profile' friend.id%}" target="_blank"> 
+                                {%for image in friend.images.all%}
+                                    {%if forloop.last%}
+                                        <div style="margin-top: 10px; position:relative;">
+                                                <img src="{{image.image.url}}" class="mini_profile_image" >
+                                                <div class="mini_fake_box"></div>
+                                        </div>
+                                    {%endif%}
+                                {%endfor%}
+                                    <div class="btn btn-dark"> <small>{{friend.get_name}}</small> </div>
+                            </div>
+                            </a>
+                        </div>
+                    {%endfor%}
+                </div>
+            </div>
+            
+        </div><!--4-->
+        <div class="col-sm-12 col-md-8"> 
+            <div class="profile_info" style="padding:10px;">
+                <h1 style="color:black;">{{profile.get_name}}</h1>
+                <button type="button" id="info_button" class="btn btn-dark">Więcej informacji</button>
+                <div id="info">
+                    <div class="container" >
+                    Data urodzenia: {{profile.birth_date}} <br/>
+                    {%if profile.country%}
+                    Kraj: {{profile.country}}  <br/>   
+                    {%endif%}
+                    {%if profile.city%}
+                    Miasto: {{profile.city}}  <br/>
+                    {%endif%} 
+                    {%if profile.gender %}
+                    Płeć {{profile.gender}} <br/>
+                    {% endif %}
+                    {%if profile.weight %}
+                    Waga: {{profile.weight}} <br/>
+                    {% endif %}
+                    {%if profile.height %}
+                    Wzrost: {{profile.height}} <br/>
+                    {% endif %}
+                    {%if profile.description %}
+                     Opis:  {{profile.description}}<br/>
+                    {% endif %}
                     </div>
                 </div>
-                {%endfor%}
-                {%if user.profile.id == profile.id%}
-                {%if profile.images.all.count < 6 %}
-                <div class="col-sm-3">
-                        <form method="post" enctype="multipart/form-data" action="{%url 'profile' profile.id%}">
-                            {%csrf_token%}
-                            {{form.media}}
-                            {{form.as_p}}
-                            <button type="submit">Prześlij</button>
-                        </form>
-                </div>
-                {%else%}
-                Masz już za dużo zdjęć
+            </div>
+            <div class="profile_buttons" style="padding:10px;">
+                <div class="row">
+                {%if not  user.profile.id == profile.id%}
+                    {%if not user.profile.id in friends_id %}
+                        <div class="col-sm-12 col-md-4">
+                            <form action="{%url 'create_friend_request' profile.id%}" method="POST">
+                                {%csrf_token%}
+                                <button type="submit" class="btn btn-dark" >Dodaj do znajomych</button>
+                            </form>
+                        </div>
+                        {%else%}
+                        <div class="col-sm-12 col-md-4" style="max-height:34px;">
+                            <form action="{%url 'remove_friend' user.profile.id profile.id profile.id%}" method="POST" >
+                                {%csrf_token%}
+                                <button type="submit" class="btn btn-danger" >Usuń znajomego</button>
+                            </form>
+                            <br />
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            {%if have_chat%}
+                            <a href="{% url 'chat' chat.id %}"  class="btn btn-dark">Chat</a>
+                            {%else%}
+                            <a href="{% url 'create_chat' profile.id %}"  class="btn btn-dark">Rozpocznij czat</a>
+                            {%endif%}
+                        </div>
+                        {%endif%}
                 {%endif%}
-                
+                {%if user.profile.id == profile.id%}
+                    <div class="col-sm-12 col-md-4">
+                    <a href="{%url 'edit_profile' profile.id%}" class="btn btn-dark">Edytuj</a>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                    <a href="{%url 'delete_profile' profile.id%}" class="btn btn-danger">Usuń konto</a>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                    <a href="{%url 'change_password' %}" class="btn btn-dark">Zmień hasło</a>
+                    </div>
+                {%endif%}
             </div>
         </div>
-    <br />
-    {%endif%}
-       
-        {%if user.is_authenticated%}
-            {% if not user.profile.id == profile.id %}
-                <div style="margin-top: 5px;"> 
-                {%if not user.profile.id in friends_id%}
-                    <form action="{%url 'create_friend_request' user.profile.id profile.id profile.id%}" method="POST">
-                        {%csrf_token%}
-                        <button type="submit" class="btn btn-primary" >Dodaj do znajomych</button>
-                    </form>
-                {%else%}
-                    <form action="{%url 'remove_friend' user.profile.id profile.id profile.id%}" method="POST">
-                        {%csrf_token%}
-                        <button type="submit" class="btn btn-primary" >Usuń znajomego</button>
-                    </form>
-                    <br />
-                    {%if have_chat%}
-                    <a href="{% url 'chat' chat.id %}"  class="btn btn-success">Chat</a>
-                    {%else%}
-                    <a href="{% url 'create_chat' profile.id %}"  class="btn btn-success">Create Chat</a>
-                    {%endif%}
+        {%if user.profile.id == profile.id or user.profile.id in friends_id or user.profile.id == profile.id %}
+            <div class="profile_posts_box">
+                {% if user.profile.id == profile.id %}
+                <form action="{% url 'profile' profile.id%}" method="POST">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Tytuł" name="title" class="form-control" />
+                    <input type="text" placeholder="Wpisz coś czym chcesz się podzielić z innymi" name="text" class="form-control" />
+                    <input type="submit" class="form-control" />
+                </form>
+                {% endif %}
+                {%if user.profile.id in friends_id or user.profile.id == profile.id %}
+                    <h1 style="color:black;">Posty</h1>
+                    {%for post in profile.posts.all%}
+                    <div class="profile_post">
+                        <div class="profile_post_title">
+                        <a  class="normal_link" href="{% url 'post' post.id%}">
+                        {{post.title}}
+                        </a>
+                        </div>
+                        <div class="profile_post_date">{{post.date| date:"d.n.Y"}}r.</div>
+                        <hr />
+                        <div class="profile_post_text">{{post.text}}</div>
+                    </div>
+                    {%empty%}
+                         <div class="profile_post">
+                            {{profile.get_name}} nie napisał/a jeszcze żadnych postów.
+                         </div>
+                    {%endfor%}
                 {%endif%}
-                </div>
-            {%endif%}
+            </div>
+        {%else%}
+            <div class="profile_posts_box_2">
+                
+            </div>
         {%endif%}
-</div>
+    </div><!--row-->
+</div><!--Container--> 
+<script>
+const info_button = document.getElementById("info_button")
+const info = document.getElementById("info")
+let shown = false
+info_button.addEventListener("click", function(){
+if(shown){
+    shown = false
+    info.style.display="none"
+    info_button.innerText="Pokaż więcej informacji"
+}else{
+    shown = true
+    info.style.display="block"
+    info_button.innerText="Pokaż mniej informacji"
+}
+})
 
+const images_button = document.getElementById("images_button")
+const images_profile_box = document.getElementById("images_profile_box")
+let shown_2 = true
+images_button.addEventListener("click", function(){
+if(shown_2){
+    shown_2 = false
+    images_profile_box.style.display="none"
+    images_button.innerText="Pokaż zdjęcia"
+}else{
+    shown_2 = true
+    images_profile_box.style.display="flex"
+    images_button.innerText="Schowaj zdjęcia"
+}
+})
+
+const friends_button = document.getElementById("friends_button")
+const friends_profile_box = document.getElementById("friends_profile_box")
+let shown_3 = true
+friends_button.addEventListener("click", function(){
+if(shown_3){
+    shown_3 = false
+    friends_profile_box.style.display="none"
+    friends_button.innerText="Pokaż znajomych"
+}else{
+    shown_3 = true
+    friends_profile_box.style.display="flex"
+    friends_button.innerText="Schowaj znajomych"
+}
+})
+
+</script>
 {% endblock %}

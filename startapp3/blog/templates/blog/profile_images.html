@@ -1,0 +1,39 @@
+{% extends "blog/base.html"%}
+{% load static %}
+{%block content%}
+<div class="container background_v1" style="color:white;">
+<h1>Zdjęcia</h1> <a href="{%url 'profile' profile.id%}" style="width:100%; " class="btn btn-dark">Wróć</a>
+    <div class="row">
+            {%for image in profile.images.all%}
+                <div class="col-md-4">
+                    <div style="background-color: white; margin-top: 10px; position:relative;"> 
+                        <a href="{{image.image.url}}" target="_blank"> 
+                        <img src="{{image.image.url}}" class="profile_image" >
+                        <div class="fake_box_2"></div>
+                        </a>
+                        {%if user.profile.id == profile.id%}
+                        <form action="{% url 'remove_image' image.id profile.id%}" method="POST">
+                            {%csrf_token%}
+                            <button type="submit" class="btn btn-primary" style="display:block;margin: 0 auto;">Usuń zdjęcie</button>
+                        </form>
+                        {%endif%}
+                    </div>
+                </div>
+                {%endfor%}
+                {%if user.profile.id == profile.id%}
+                    {%if profile.images.all.count < 6 %}
+                    <div class="col-sm-4">
+                            <form method="post" enctype="multipart/form-data" action="{%url 'profile_images' profile.id%}">
+                                {%csrf_token%}
+                                {{form.media}}
+                                {{form.as_p}}
+                                <button type="submit">Prześlij</button>
+                            </form>
+                    </div>
+                    {%else%}
+                    Masz już za dużo zdjęć
+                    {%endif%}
+                {%endif%}
+            </div>
+</div>
+{% endblock %}
