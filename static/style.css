@@ -6,21 +6,40 @@
 }
 
 :root {
-    --ramka: rgb(148, 38, 38);
+    --ramka: rgb(0, 164, 240);
+    --message-button: rgb(17, 0, 255);
+    --background: black;
+    --h: white;
+    --body-text: white;
+    --card-title: rgb(255, 255, 255);
+    --card-body: rgb(68, 0, 255);
+    --my-message: rgb(0, 34, 128);
+    --other-message: rgb(0, 195, 255);
+    --main-p-desc:rgba(2, 30, 121, 0.9);
+    --bg-v1:rgba(0, 0, 0, 0.4);
+    --btn-text: white;
+    --btn-hover: crimson;
+    --btn-border:black;
+    --btn-bg: black;
+    --profile:rgba(2, 30, 121, 0.9);
+    --all-chats-chat:white;
+    --last-message: rgb(68, 0, 255);
+    --profile-posts-box:rgba(0, 0, 0, 0.4);
+
   }
 
-nav{
-    background: rgb(255,0,0);
-    background: linear-gradient(16deg, rgba(255,0,0,1) 29%, rgba(0,0,0,1) 63%, rgba(0,0,0,1) 100%);
-    
-    border-bottom: var(--ramka) solid 3px;
-}
 body{
     background-repeat: no-repeat;
     background-size: cover;
-    background: black;
-
+    background: var(--background);
+    color: var(--body-text);
     
+}
+.card-body{
+    background-color: var(--card-body)!important;
+}
+.card-text{
+    color:white!important;
 }
 .navbar{
     position: fixed;
@@ -33,38 +52,23 @@ body{
 }
 
 h1,h2,h3,h4,h5{
-    color:aliceblue;
+    color:var(--h);
     
 }
 
-nav .navbar-nav li a{
-    color: white !important;
-    font-size: 1.5em;
-    }
-
-nav .navbar-nav li a:hover{
-    border-bottom: 1px solid white;
-    }
-
-.main_content{
-    padding-top: 100px;
-    min-height: 800px;
-    background: rgb(255,0,0);
-    background: linear-gradient(151deg, rgba(255,0,0,1) 5%, rgba(0,0,0,1) 40%, rgba(0,0,0,1) 100%);
-}
 .card-title{
-    color:black !important;
+    color: var(--card-title) !important;
 }
 .my_message{
-    background-color:rgba(255, 0, 0, 0.7); 
-    border-radius: 10px;
+    background-color: var(--my-message); 
     margin-top: 3px;
     text-align: right;
+    border-radius: 20px 0px 20px 20px;
 }
 .other_message{
-    background-color:rgba(251, 255, 0, 0.705); 
-    border-radius: 10px;
+    background-color: var(--other-message); 
     margin-top: 3px;
+    border-radius: 20px 20px 20px 0px;
 }
 
 .profile_image{
@@ -85,25 +89,24 @@ nav .navbar-nav li a:hover{
     
 }
 #message_input{
-    border-radius: 20px;
     height: 50px;
 
 }
 #message_button{
-    border-radius: 20px;
-    background: rgb(255,0,0);
-    background: linear-gradient(151deg, rgba(255,0,0,1) 21%, rgba(0,0,0,1) 47%, rgba(255,0,0,1) 80%);
-    color:white;
-    border: solid 3px white;
+    background: var(--message-button);
+    color: var(--btn-text);
+    border: solid 3px var(--btn-text);
     height: 50px;
 }
 
 .background_v1{
     border: solid 2px var(--ramka);
-    border-radius: 50px;
     padding: 25px;
-    background-color:rgba(0, 0, 0, 0.4); 
-    min-height: 700px;
+    background-color: var(--bg-v1); 
+    min-height: 800px;
+    width: 96%;
+   
+    
 }
 .fake_box{
     width:300px;
@@ -111,8 +114,7 @@ nav .navbar-nav li a:hover{
 }
 
 .main_page_desc{
-    background-color: rgb(238, 109, 109)!important;
-    border-radius: 10px;
+    background-color: var(--main-p-desc) !important;
     padding:5px;
     height:120px;
 }
@@ -120,25 +122,22 @@ nav .navbar-nav li a:hover{
 .profile_image_class{
     margin-top: 10px;
     border:solid 2px var(--ramka);
-    border-radius:10px;
     width:100%;
-    background-color: white;
+    background-color: var(--profile);
 }
 
 .profile_info{
     border:solid 2px  var(--ramka);
     margin-top: 10px;
     width:100%;
-    border-radius:10px;
-    background-color: rgb(255, 255, 255, 0.9);
+    background-color: var(--profile);
     word-wrap: break-word;
    
 }
 #info{
-    border-radius: 10px;
     margin-top:10px;
     background-color: var(--ramka);
-    color:white;
+    color:var(--h);
     padding:5px;
     display: none;
 }
@@ -146,8 +145,7 @@ nav .navbar-nav li a:hover{
 .profile_buttons{
     border:solid 2px  var(--ramka);
     margin-top: 10px;
-    border-radius:10px;
-    background-color: rgb(255, 255, 255, 0.9);
+    background-color: var(--profile);
     width:100%;
     
 }
@@ -157,8 +155,7 @@ nav .navbar-nav li a:hover{
 .profile_images_css{
     border:solid 2px  var(--ramka);
     margin-top: 10px;
-    border-radius:10px;
-    background-color: rgb(255, 255, 255, 0.9);
+    background-color: var(--profile);
     width:100%;
     
 }
@@ -211,19 +208,17 @@ nav .navbar-nav li a:hover{
   }
 .all_chats_chat{
     border:solid 2px  var(--ramka);
-    border-radius: 20px;
-    background-color: white;
+    background-color: var(--all-chats-chat);
     width:100%;
-    
+    min-height: 300px;
     padding:10px;
     margin-top:10px;
     
 }
 .all_chats_image_box{
     margin-top: 10px;
-    border-radius:10px;
     width:25%;
-    background-color: white; 
+    background-color: var(--all-chats-chat); 
     
 }
 .all_chats_image{
@@ -243,10 +238,9 @@ nav .navbar-nav li a:hover{
 }
 .all_chats_lastmessage{
     width:90%;
-    background-color: lightblue;
+    background-color: var(--last-message);
     word-break: break-all;
     margin:20px;
-    border-radius:20px;
     padding:5px;
     font-size: 24px;
 }
@@ -263,14 +257,12 @@ nav .navbar-nav li a:hover{
     
     border:solid 2px  var(--ramka);
     margin-top: 10px;
-    border-radius:10px;
-    background-color: rgb(255, 255, 255, 0.4);
+    background-color: var(--profile-posts-box);
     padding:5px;
 }
 .profile_posts_box2{
     width:100%;
     margin-top: 10px;
-    border-radius:10px;
     padding:5px;
 }
 
@@ -279,9 +271,8 @@ nav .navbar-nav li a:hover{
     height:77%;
     padding:5px;
     margin-top: 15px;
-    border-radius:10px;
     border:solid 1px  var(--ramka);
-    background-color: rgb(255, 255, 255, 0.9);
+    background-color:var(--profile);
 }
 .profile_post_title{
     font-size: 20px;
@@ -298,33 +289,31 @@ nav .navbar-nav li a:hover{
     height:77%;
     border:solid 2px  var(--ramka);
     margin-top: 10px;
-    border-radius:10px;
-    background-color: rgb(255, 255, 255, 0.9);
+    background-color: var(--profile);
     padding:5px;
 }
 .my-button{
     display: inline-block;
     text-align: center;
     padding:5px;
-    background-color:black;
-    border-radius:20px;
+    background-color:var(--btn-bg);
     border:none;
-    color:white;
+    color:var(--btn-text);
     font-size: 20px;
     transition: background-color 1s, color 1s;
     text-decoration: none;
     width: 100%;
+    border: solid 1px var(--btn-border);
 }
 .my-button:hover{
     background-color:var(--ramka);
-    color:white;
-    transform: scale(1.05);
-    border: solid 1px black;
+    color:var(--btn-text);
+    border: solid 1px var(--btn-border);
 }
 .my-button:focus{
     outline:none;
-    background-color: crimson;
-    color:white;
+    background-color: var(--btn-hover);
+    color:var(--btn-text);
 }
 .my_button:visited{
     text-decoration: none;
@@ -333,9 +322,8 @@ nav .navbar-nav li a:hover{
 .post_details{
     width:100%;
     min-height: 350px;
-    background-color: rgb(255, 255, 255, 0.9);
+    background-color: var(--profile);
     border:solid 2px  var(--ramka);
-    border-radius: 20px;
     padding:10px;
     position: relative;
 }
@@ -349,7 +337,7 @@ nav .navbar-nav li a:hover{
     word-break: break-word;
     margin-top:50px;
     padding:10px;
-    margin-left:200px;
+    margin-left:300px;
 }
 @media only screen and (max-width: 990px) {
     .post_text{
@@ -359,41 +347,39 @@ nav .navbar-nav li a:hover{
 
 }
 .post_link{
-    color:black;
+    color:white;
     text-decoration: none;
-    padding:5px;
+    border-radius: 5px;
 }
 .post_link:hover{
-    background-color: black;
-    border-radius: 10px;
-    color:white
+    background-color: var(--btn-bg);
+    color:white;
 }
 
 .post_comments{
     width:100%;
-    background-color: rgb(255, 255, 255, 0.9);
+    background-color: var(--profile);
     border:solid 2px  var(--ramka);
-    border-radius: 20px;
     padding:10px;
     word-break:break-all;
     display: inline-block;
    
 }
 
-#comment_text{
-    border-radius: 10px;
-}
 #comment_button{
-    border-radius: 10px;
-    background-color: black;
-    color:white;
+    background-color: var(--btn-bg);
+    color:var(--btn-text);
 }
 input:focus{
     outline:none;
 }
 
 .normal_link{
-    color:black;
+    color:white;
+    text-decoration: none;
+}
+.normal_link:hover{
+    color:rgb(241, 248, 140);
     text-decoration: none;
 }
 .pagination{
@@ -406,8 +392,8 @@ input:focus{
 }
 
 .pagination_number{
-    background-color: black;
-    color:white;
+    background-color: var(--btn-bg);
+    color:var(--btn-text);
     text-align: center;
    
     
@@ -451,4 +437,18 @@ input:focus{
 
 form ul{
   display: none;
+}
+
+.fb, .fb:visited{
+    background-color:#3b5998;
+    border:2px #3b5998 solid;
+    color:white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 30px;
+}
+
+ .fb:hover{
+    background-color:#293e6a;
+    border:2px white solid;
 }

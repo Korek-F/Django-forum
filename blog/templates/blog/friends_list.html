@@ -1,7 +1,7 @@
 {% extends "blog/base.html"%}
 {% load static %}
 {%block content%}
-<div class="container background_v1" >
+<div class=" background_v1"  >
 {% include 'blog/_messages.html'%}
 <h1>Zaproszenia do znajomych</h1>
 <div class="row">
@@ -103,7 +103,7 @@
                         Brak opisu
                     {%  endif   %}
                     </p>
-                    <a href="{%url 'profile' profile.id%}" class="btn btn-danger">Zobacz pełny profil</a>
+                    <a href="{%url 'profile' profile.id%}" class="btn my-button">Zobacz pełny profil</a>
                     </div>
                 </div>
             </div>

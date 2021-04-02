@@ -4,11 +4,11 @@
 {%block content%}
 {% if user.is_authenticated%}
 
-<div class="container background_v1">
+<div class=" background_v1">
     <div class="row">
     {% for profile in profiles%}
         
-        <div class="col-sm-12 col-md-6 col-lg-4" >
+        <div class="col-sm-12 col-md-6  col-lg-4 col-xl-3" >
             <div class="card main_page_card" style="margin-top: 10px;">
                 <div class="card-body">
                 {% if profile.images%}

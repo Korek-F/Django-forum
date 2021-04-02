@@ -1,7 +1,7 @@
 {% extends "blog/base.html"%}
 {%load static%}
 {%block content%}
-<div class="container background_v1" >
+<div class="container background_v1" style="min-height:1700px;">
 <h1>Czaty</h1>
     {%for chat in chats%}
         <div class="all_chats_chat row">
@@ -22,13 +22,14 @@
                     {%endfor%}
                     <div class="col-md-9">
                         <h1 class="all_chats_name"> {{chat_user.get_name}}</h1>
-                        <div class='all_chats_lastmessage'>
-                        {%if not chat.get_last_message.owner == user.profile and not chat.get_last_message.displayed%}
-                        <div style="color:red;"><i class="fa fa-envelope" aria-hidden="true"></i> {{chat.get_last_message|truncatechars:70 }}</div>
-                        {%else%}
-                        {{chat.get_last_message|truncatechars:70 }}
-                        {%endif%}
-                        </div>
+                            <div class='all_chats_lastmessage'>
+                            {%if not chat.get_last_message.owner == user.profile and not chat.get_last_message.displayed%}
+                            <div style="color:white;"><b><i class="fa fa-envelope" aria-hidden="true"></i> {{chat.get_last_message|truncatechars:70 }}</b>
+                            </div>
+                            {%else%}
+                            {{chat.get_last_message|truncatechars:70 }}
+                            {%endif%}
+                            </div>
                         <a href="{% url 'chat' chat.id%}" style="width:90%; margin:20px;" class="btn btn-dark">Czat</a>
                     </div>
                 {%endif%}

@@ -1,7 +1,7 @@
 {% extends "blog/base.html"%}
 {%load static%}
 {%block content%}
-<div class="container background_v1" style="color:white;">
+<div class="background_v1" >
     {% include 'blog/_messages.html'%}
     <div class="row">
         <div class="col-sm-12 col-md-2"><h1 style="color:white;">Posty</h1></div>
@@ -17,21 +17,21 @@
         </form>
         </div>
     </div>
-    <div class="profile_posts_box2" style="color:black;">
+    <div class="profile_posts_box2" >
         {%for post in posts%}
             <div class="profile_post">
                  <div class="profile_post_title">
-                 <div class="row">
-                    <div class="col-sm-6">
-                    <a href="{%url 'profile' post.owner.id %}" 
-                    class="my-button" style="margin-top:5px;"
-                    >{{post.owner.get_name}}</a>
+                    <div class="row">
+                        <div class="col-sm-6">
+                        <a href="{%url 'profile' post.owner.id %}" 
+                        class="my-button" style="margin-top:5px;"
+                        >{{post.owner.get_name}}</a>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="{%url 'post' post.id %}" style="margin-top:5px;"
+                        class="my-button" >Zobacz cały post</a>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
-                    <a href="{%url 'post' post.id %}" style="margin-top:5px;"
-                    class="my-button" >Zobacz cały post</a>
-                    </div>
-                </div>
                 </div>
                 <div class="profile_post_date">{{post.date| date:"d.n.Y"}}r.</div>
                  <hr />
@@ -39,7 +39,7 @@
                 <div class="profile_post_text">{{post.text}}</div>
             </div>
         {%endfor%}
-    <div>
+    </div>
     <div class="pagination row">
         {% if posts.has_previous %}
             <div class="col-md-12 col-lg-2">
@@ -72,4 +72,5 @@
         
     </div>
 </div>
+
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "blog/base.html"%}
 {%load static%}
 {%block content%}
-<div class="container background_v1">
+<div class=" background_v1">
     {% include 'blog/_messages.html'%}
     <div class="post_details">
         
@@ -58,7 +58,7 @@
         {%for comment in post.comments.all%}
             <div class="post_comment" title="{{post.date_time| date:'G:i d.n.Y'}}">
                 <a href="{% url 'profile' comment.owner.id%}" class="post_link">{{comment.owner}} </a> 
-                <a href="{% url 'delete_comments' comment.id%}" class="post_link">Usuń</a>
+                <a href="{% url 'delete_comments' comment.id%}" class="post_link"><small>Usuń</small></a>
                 - {{comment.text}}
             </div>
         {%endfor%}

@@ -1,10 +1,10 @@
 {% extends "blog/base.html"%}
 {% load static %}
 {%block content%}
-<div class="container background_v1">
+<div class=" background_v1" style="color:white;">
     {% include 'blog/_messages.html'%}
     <div class="row">
-        <div class="col-sm-12 col-md-4"> 
+        <div class="col-sm-12 col-md-3"> 
             <div class="profile_image_class">
                 {% if profile.images%}
                 <div style="width: 100%; position:relative;">
@@ -68,9 +68,9 @@
             </div>
             
         </div><!--4-->
-        <div class="col-sm-12 col-md-8"> 
+        <div class="col-sm-12 col-md-9"> 
             <div class="profile_info" style="padding:10px;">
-                <h1 style="color:black;">{{profile.get_name}}</h1>
+                <h1 >{{profile.get_name}}</h1>
                 <button type="button" id="info_button" class="btn btn-dark">Więcej informacji</button>
                 <div id="info">
                     <div class="container" >
@@ -147,7 +147,7 @@
                 </form>
                 {% endif %}
                 {%if user.profile.id in friends_id or user.profile.id == profile.id %}
-                    <h1 style="color:black;">Posty</h1>
+                    <h1 >Posty</h1>
                     {%for post in profile.posts.all%}
                     <div class="profile_post">
                         <div class="profile_post_title">
@@ -171,8 +171,9 @@
                 
             </div>
         {%endif%}
-    </div><!--row-->
-</div><!--Container--> 
+        </div><!--row-->
+    </div><!--Container--> 
+</div>
 <script>
 const info_button = document.getElementById("info_button")
 const info = document.getElementById("info")

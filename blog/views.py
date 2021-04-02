@@ -19,7 +19,7 @@ from django.dispatch import receiver
 # Create your views here.
 def MainPage(request):
     profiles = Profile.objects.all()
-    paginator = Paginator(profiles, 6)
+    paginator = Paginator(profiles,8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context={

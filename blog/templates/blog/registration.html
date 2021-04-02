@@ -1,45 +1,52 @@
 {% extends "blog/base.html"%}
 {%block content%}
 {% include 'blog/_messages.html'%}
-<h1>Rejestracja</h1>
-{%if error%}
-{{error}}
-{%endif%}
-<form action="{% url 'registration' %}" method="post">
-    {% csrf_token %}
-    <input 
-        style="margin:10px;"
-        class="form-control"
-        type="text"
-        name="username"
-        placeholder="Username"
-        id="usernameField" />
-    <input
-        style="margin:10px;"
-        class="form-control"
-        type="email"
-        name="email"
-        placeholder="Email"
-        id="emailField"/>
-    <input 
-        style="margin:10px;"
-        class="form-control"
-        type="password"
-        name="password"
-        placeholder="Password"
-        id="passwordField"/>
-    <input 
-        style="margin:10px;"
-        class="form-control"
-        type="date"
-        name="date"
-        placeholder="Birth Date"
-        id="birthdateField"/>
+<div class="container">
+    <h1>Rejestracja</h1>
+    {%if error%}
+    {{error}}
+    {%endif%}
+    <form action="{% url 'registration' %}" method="post">
+        {% csrf_token %}
+        <input 
+            style="margin:10px;"
+            class="form-control"
+            type="text"
+            name="username"
+            placeholder="Username"
+            id="usernameField" />
+        <input
+            style="margin:10px;"
+            class="form-control"
+            type="email"
+            name="email"
+            placeholder="Email"
+            id="emailField"/>
+        <input 
+            style="margin:10px;"
+            class="form-control"
+            type="password"
+            name="password"
+            placeholder="Password"
+            id="passwordField"/>
+        <input 
+            style="margin:10px;"
+            class="form-control"
+            type="date"
+            name="date"
+            placeholder="Birth Date"
+            id="birthdateField"/>
 
-    <button 
-        style="margin:10px;"
-        type="submit" 
-        value="Register" 
-        class="btn btn-dark"> Zarejestruj </button>
-</form>
+        <button 
+            style="margin:10px;"
+            type="submit" 
+            value="Register" 
+            class="btn btn-dark"> Zarejestruj </button>
+    </form>
+    <a href="{% url 'social:begin' 'facebook' %}">
+		<div class="fb">
+			Zarejestruj za pomocą Facebook'a
+		</div>
+    </a>
+</div>
 {% endblock %}

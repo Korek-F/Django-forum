@@ -26,8 +26,11 @@ class Profile(models.Model):
     chats = models.ManyToManyField("ChatBox", related_name='+',blank=True)
     posts = models.ManyToManyField("Post", related_name='+',blank=True)
     def get_age(self):
-        import datetime
-        age = int((datetime.date.today() - self.birth_date).days/365.25)
+        if self.birth_date:
+            import datetime
+            age = int((datetime.date.today() - self.birth_date).days/365.25)
+        else:
+            age = "Brak danych"
         return age
     def get_name(self):
         if self.first_name and self.last_name:
@@ -59,7 +62,7 @@ class ChatBox(models.Model):
     date = models.DateField(auto_now_add=True)
     messages = models.ManyToManyField("ChatMessage", related_name='+', blank=True)
     users = models.ManyToManyField("Profile", related_name='+',blank=True)
-    last_message_date = models.DateTimeField(blank=True)
+    last_message_date = models.DateTimeField(blank=True, null=True)
     def __str__(self):
         chat_name = " "
         for user in self.users.all():
@@ -67,7 +70,10 @@ class ChatBox(models.Model):
         return str(chat_name)
     
     def get_last_message(self):
-        last_message = self.messages.all().latest("date")
+        try:
+            last_message = self.messages.all().latest("date")
+        except: 
+            last_message = "Brak"
         return last_message
         
 
