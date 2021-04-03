@@ -92,8 +92,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 #AUTHENTICATION_BACKENDS=['django.contrib.auth.backends.ModelBackend','social_core.backends.facebook.FacebookOAuth2']
-SOCIAL_AUTH_FACEBOOK_KEY = '251028436654418'  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = '62405529915d0a6bde68cbf3819f57dc'  # App Secret
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 

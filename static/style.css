@@ -377,9 +377,11 @@ input:focus{
 .normal_link{
     color:white;
     text-decoration: none;
+    transition: 0.8s;
 }
 .normal_link:hover{
     color:rgb(241, 248, 140);
+    font-size:2em;
     text-decoration: none;
 }
 .pagination{
@@ -451,4 +453,88 @@ form ul{
  .fb:hover{
     background-color:#293e6a;
     border:2px white solid;
+}
+
+
+.main_page_mess{
+    border: 5px solid white;
+    padding:20px;
+    background-color: rgb(0, 58, 134);
+    width: 40%;
+    visibility: hidden;
+    
+}
+.main_page_reg{
+    font-size: 35px;
+    margin-bottom: 100px;
+    border-radius: 40px 40px 40px 0px;
+    margin: 30px;
+    animation: 1s ease-out 1s 1 slideInFromLeft forwards;
+}
+.main_page_log{
+    margin: 30px;
+    font-size: 40px;
+    float: right;
+    border-radius: 40px 40px 0px 40px;  
+    animation: 1s ease-out 2s 1 slideInFromRight forwards;
+}
+
+.main_page_info{
+    margin: 30px;
+    margin-top: 230px;
+    font-size: 35px;
+    float: left;
+    border-radius: 40px 40px 40px 0px;  
+    animation: 1s ease-out 3s 1 slideInFromLeft forwards;
+    
+}
+
+@media only screen and (max-width:1096px) {
+    .main_page_reg, .main_page_log, .main_page_info{
+        width:80%;
+        font-size:20px;
+        margin-top: 5px;
+    }
+}
+.main_page_reg>a, .main_page_log>a{
+    color:white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.6s;
+    display: inline-block;
+}
+
+.main_page_reg>a:hover, .main_page_log>a:hover{
+    transform: scale(1.2) translateY(-15px);
+    color:green;
+    text-shadow: 0px 15px 10px white;
+    -webkit-text-stroke: 0.5px white;
+    border-radius: 15px;
+    
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);    
+    }
+    10% {
+        visibility: visible;
+    }
+    100% {
+        transform: translateX(0);
+        visibility: visible;
+    }
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+    10% {
+        visibility: visible;
+    }
+    100% {
+        transform: translateX(0);
+        visibility: visible;
+    }
 }

@@ -112,18 +112,19 @@
     list-style-type: none;
 }
 #navigation_main>ul>li>a{
-    background-color: blue;
-    border: 3px blue solid;
     margin-top: 10px;
     font-size: 40px;
     text-align: center;
     color:white;
     border-radius: 20px 0px 20px 20px;
+	transition: all 0.6s, font-weight 0s;
 }
 
 
 #navigation_main>ul>li>a:hover{
-    background-color: rgb(78, 78, 243);
-    border: 3px white solid;
-
+   transform: scale(1.2);
+   text-shadow: 25px 21px 6px rgba(0, 0, 0, 0.82);
+   font-weight: 500;
+  
 }
+

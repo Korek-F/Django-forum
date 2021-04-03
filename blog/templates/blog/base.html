@@ -41,7 +41,7 @@
               <li class="nav-item ">
               <a class="nav-link" href="{% url 'profile' user.profile.id %}">Profil</a>
               </li>
-              <li>
+              <li class="nav-item ">
                 <a class="nav-link"  href="{% url 'friend_list' user.profile.id %}">
                 {% if not new_friend_request == 0%}
                   Znajomi  <span style="color:red;"> {{new_friend_request}}</span>
@@ -50,16 +50,16 @@
                 {%endif%}
                 </a>
               </li>
-              <li>
+              <li class="nav-item ">
                 <a class="nav-link"  href="{% url 'find_friend'%}">Znajdz znajomego</a>
               </li>
-              <li>
+              <li class="nav-item ">
                 <a class="nav-link"   href="{% url 'all_chats' %}">Czat
                 {% if  new_messages%}  {{new_messages}} {%endif%}</a>
               </li>
               {%endif%}
               {% if user.is_authenticated%}
-              <li class="nav-item">
+              <li class="nav-item ">
                 <a class="nav-link"  href="{% url 'logout' %}">Wyloguj</a>
               </li>
               {%endif%}
@@ -72,6 +72,26 @@
 			  const main_content = document.getElementById('main_content');
 			  main_content.classList.toggle('active')
 		}
+
+    document.querySelectorAll(".nav-item").forEach(function(item){
+
+        item.addEventListener("mouseover",function(event){
+          document.querySelectorAll(".nav-item").forEach(function(item){ 
+              item.style["filter"]="blur(3px)"
+          })
+          item.style["filter"]="blur(0px)"
+        })
+        item.addEventListener("mouseout",function(event){
+          document.querySelectorAll(".nav-item").forEach(function(item){ 
+              item.style["filter"]="blur(0px)"
+              
+          })
+        })
+
+    });
+    {% if not user.is_authenticated%}
+      document.querySelectorAll("body")[0].style.overflow="hidden" 
+    {%endif%}
 	</script>
   </body>
 </html>

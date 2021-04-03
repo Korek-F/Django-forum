@@ -81,6 +81,21 @@
     
 </div>
 </div>
+    {%else%}
+    <div class="main_page_reg main_page_mess"> 
+    Nie masz konta? <a  href="{% url 'registration' %}">ZAREJESTRUJ SIĘ</a>
+    już teraz. Konta na tej platformie są w pełni darmowe.
+    </div>     
+    <div class="main_page_log main_page_mess"> 
+    Masz już konto? <a href="{% url 'login_to_blog' %}">ZALOGUJ SIĘ</a>
+    </div>
+    <div class="main_page_info main_page_mess"> 
+        Jako zalogowany użytkownik będziesz mógł: <br />
+            - Poznawać nowych znajomych.<br />
+            - Pisać posty.<br />
+            - Chatować ze znajomymi.<br />
+
+    </div>
     {%endif%}
 {% endblock %}
 
