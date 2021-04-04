@@ -3,9 +3,9 @@
 {%block content%}
 {% if user.is_authenticated and not error %}
 <div class="container background_v1">
-    <h2 style="color:white;">{{second_user.get_name}}</h2>
-
-
+    <a href='{% url "profile" second_user.id %}'>
+        <h2 style="color:white;">{{second_user.get_name}}</h2>
+    </a>
     <div style="color:white;"> 
         <div class="row">
             <input class="col-sm-12 col-md-10" type="text" id="message_input" maxlength="300" />

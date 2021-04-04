@@ -25,6 +25,9 @@
         <ul>
             {% if not user.is_authenticated%}
               <li class="nav-item ">
+                <a class="nav-link" href="{% url 'mainpage' %}">Strona główna</a>
+              </li>
+              <li class="nav-item ">
                 <a class="nav-link" href="{% url 'registration' %}">Rejestracja</a>
               </li>
               <li class="nav-item ">

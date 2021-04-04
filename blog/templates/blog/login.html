@@ -2,26 +2,34 @@
 {%block content%}
 {% include 'blog/_messages.html'%}
 <div class="container">
-    <h1>Logowanie</h1>
+    <div class="main_page_mess main_page_reg_r main_page_reg_1">
+      <h1>Logowanie</h1>
+    </div>
     <form action="{% url 'login2' %}" method="post">
         {% csrf_token %}
-        <input type="text" 
-        class="form-control" 
-        name="username" style="margin:10px;"
-        placeholder="Username"/>
+      <div class="main_page_mess main_page_reg_l main_page_reg_2">
+          <input type="text" 
+          class="form-control" 
+          name="username" style="margin:10px;"
+          placeholder="Username"/>
 
-        <input type="password" 
-        class="form-control" 
-        name="password" style="margin:10px;"
-        placeholder="Password">
+          <input type="password" 
+          class="form-control" 
+          name="password" style="margin:10px;"
+          placeholder="Password">
+      </div>
 
+      <div class="main_page_mess main_page_reg_r main_page_reg_3">
         <button style="margin:10px;" class="btn btn-dark">Login</button>
+      </div>
 
     </form>
-    <a href="{% url 'social:begin' 'facebook' %}">
-		<div class="fb">
-			Zarejestruj za pomocą Facebook'a
-		</div>
-    </a>
+    <div class="main_page_mess main_page_reg_l main_page_reg_4">
+        <a href="{% url 'social:begin' 'facebook' %}">
+        <div class="fb">
+          Zaloguj się za pomocą Facebook'a
+        </div>
+        </a>
+    </div>
 </div>
 {% endblock %}

@@ -45,6 +45,8 @@ def MainPage(request):
         context["new_messages"] = new_messages
     return render(request, "blog/mainpage.html",context=context)
 
+from django.utils import timezone
+from datetime import datetime
 class RegistrationView(View):
     def get(self, request):
         return render(request, "blog/registration.html")
@@ -53,6 +55,13 @@ class RegistrationView(View):
         email = request.POST['email']
         password = request.POST['password']
         birth_date = request.POST['date']
+        now = str(timezone.now().date())
+        date = datetime.strptime(birth_date, '%Y-%m-%d')
+        now = datetime.strptime(now, '%Y-%m-%d')
+        if date>=now:
+            messages.error(request, "Niepoprawna data")
+            return render(request, "blog/registration.html")
+        
         if not User.objects.filter(username=username).exists():
             if not User.objects.filter(email=email).exists():
                 if len(password)<6:
